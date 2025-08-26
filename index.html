@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdulmalek ESUGHI - Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loader">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="terminal-title">~/about-me</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="loading-text">
+                            <span class="prompt">$</span>
+                            <span class="typing-text" id="typingText"></span>
+                            <span class="cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-left">
+                <div class="profile-image">
+                    <img src="./photos/🀄.jpeg" alt="Abdulmalek ESUGHI" id="profileImg">
+                </div>
+                <div class="name-container">
+                    <h1 class="name">Abdulmalek ESUGHI</h1>
+                </div>
+            </div>
+            
+            <div class="hero-right">
+                <div class="about-text">
+                    <p>I'm Abdulmalek ESUGHI, A passionate computer science student from Libya based in Marseille, France. I love creating efficient and scalable applications. Let's build something amazing together!</p>
+                </div>
+                
+                <div class="social-accounts">
+                    <h3>My Accounts</h3>
+                    <div class="social-links">
+                        <a href="https://github.com/7n4xt" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/abdulmalek-esughi" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:your.email@example.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://twitter.com/yourusername" target="_blank" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="skills-section">
+            <div class="skills-container">
+                <h2>Languages & Technologies</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <i class="fab fa-js-square"></i>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-golang"></i>
+                        <span>Go</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-css3-alt"></i>
+                        <span>CSS3</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-database"></i>
+                        <span>MySQL</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-flutter"></i>
+                        <span>Flutter</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-git-alt"></i>
+                        <span>Git</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-linux"></i>
+                        <span>Linux</span>
+                    </div>
+                </div>
+                <div class="github-contribution">
+                    <h3>GitHub Activity</h3>
+                    <div class="github-stats">
+                        <div class="contribution-graph">
+                            <img src="https://ghchart.rshah.org/7n4xt" alt="GitHub Contribution Graph" loading="lazy">
+                        </div>
+                        <div class="github-stats-cards">
+                            <img src="https://github-readme-stats.vercel.app/api?username=7n4xt&show_icons=true&theme=nord&hide_border=true&bg_color=2E3440&text_color=D8DEE9&icon_color=88C0D0&title_color=5E81AC" alt="GitHub Stats" loading="lazy">
+                            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=7n4xt&layout=compact&theme=nord&hide_border=true&bg_color=2E3440&text_color=D8DEE9&title_color=5E81AC" alt="Top Languages" loading="lazy">
+                        </div>
+                        <div class="github-streak">
+                            <img src="https://github-readme-streak-stats.herokuapp.com/?user=7n4xt&theme=nord&hide_border=true&background=2E3440&stroke=D8DEE9&ring=88C0D0&fire=BF616A&currStreakNum=D8DEE9&sideNums=D8DEE9&currStreakLabel=88C0D0&sideLabels=5E81AC&dates=D8DEE9" alt="GitHub Streak" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="github-link">
+                        <a href="https://github.com/7n4xt" target="_blank" class="github-profile-btn">
+                            <i class="fab fa-github"></i>
+                            Visit My GitHub Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects-section">
+            <h2>My Projects</h2>
+            <div class="project-slider">
+                <div class="project-wrapper">
+                    <div class="project-card active">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250/88C0D0/2E3440?text=Forum+Go" alt="Forum Go">
+                        </div>
+                        <div class="project-info">
+                            <h3>Forum Go</h3>
+                            <p>Forum Go is a modern, feature-rich discussion platform built with Go, MySQL, and vanilla HTML/CSS/JavaScript. It provides a comprehensive forum solution with advanced features like pagination, search, categorization, and administrative capabilities.</p>
+                            <a href="https://github.com/7n4xt/Forum-go.git" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250/BF616A/2E3440?text=E-Dealership" alt="E-Dealership">
+                        </div>
+                        <div class="project-info">
+                            <h3>E-Dealership</h3>
+                            <p>E-Dealership is a modern web application for a premium performance car dealership, providing an immersive online shopping experience for luxury vehicles.</p>
+                            <a href="https://github.com/7n4xt/e-dealership" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250/A3BE8C/2E3440?text=Papery" alt="Papery">
+                        </div>
+                        <div class="project-info">
+                            <h3>Papery</h3>
+                            <p>A modern web application for discovering, managing, and enjoying high-quality wallpapers.</p>
+                            <a href="https://github.com/7n4xt/Papery" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250/EBCB8B/2E3440?text=HangEngine" alt="HangEngine">
+                        </div>
+                        <div class="project-info">
+                            <h3>HangEngine</h3>
+                            <p>A car-themed web-based version of the classic Hangman game, developed using Go, HTML, and CSS.</p>
+                            <a href="https://github.com/7n4xt/Les-Swappers" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250/D08770/2E3440?text=Hangman" alt="Hangman">
+                        </div>
+                        <div class="project-info">
+                            <h3>Hangman</h3>
+                            <p>Console version of the classic Hangman game, developed using Go.</p>
+                            <a href="https://github.com/7n4xt/Hangman" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250/81A1C1/2E3440?text=Todo+Flutter" alt="Todo Flutter">
+                        </div>
+                        <div class="project-info">
+                            <h3>Todo Flutter</h3>
+                            <p>A small todo app to learn Flutter development.</p>
+                            <a href="https://github.com/7n4xt/To-do-flutter" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250/B48EAD/2E3440?text=JDM+Dealership" alt="JDM Dealership Flutter">
+                        </div>
+                        <div class="project-info">
+                            <h3>JDM Dealership Flutter</h3>
+                            <p>A small e-commerce app to learn Flutter development.</p>
+                            <a href="https://github.com/7n4xt/jdm-dealership-flutter" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="slider-nav prev" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-nav next" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="project-indicators">
+                <span class="indicator active" data-slide="0"></span>
+                <span class="indicator" data-slide="1"></span>
+                <span class="indicator" data-slide="2"></span>
+                <span class="indicator" data-slide="3"></span>
+                <span class="indicator" data-slide="4"></span>
+                <span class="indicator" data-slide="5"></span>
+                <span class="indicator" data-slide="6"></span>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Abdulmalek ESUGHI. Built with ❤️ and caffeine.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/7n4xt" target="_blank">GitHub</a>
+                    <a href="mailto:your.email@example.com">Contact</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
