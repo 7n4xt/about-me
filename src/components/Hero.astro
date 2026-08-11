@@ -1,0 +1,341 @@
+---
+import { SITE } from '../lib/site';
+---
+
+<section class="hero" id="home">
+  <div class="hero__grid container">
+    <div class="hero__content">
+      <p class="hero__status mono" data-reveal>
+        <span class="hero__pulse" aria-hidden="true"></span>
+        <span id="hero-clock">--:--:--</span> <span class="hero__tz">UTC+02:00</span> · <span class="hero__loc">{SITE.location}</span> · system online
+      </p>
+
+      <h1 class="hero__title" data-reveal>
+        Hi, I'm <span class="hero__name">Abdulmalek Esughi</span>
+      </h1>
+
+      <p class="hero__typing mono" data-reveal>
+        <span class="hero__prompt" aria-hidden="true">$&nbsp;</span>
+        <span id="hero-typing"></span><span class="hero__caret" aria-hidden="true">▊</span>
+      </p>
+
+      <p class="hero__sub" data-reveal>
+        Cybersecurity student specializing in <strong>networking &amp; infrastructure</strong>.
+        From Libya, building my career in Marseille — I stand up homelabs, harden systems,
+        and break things on purpose to learn how they work.
+      </p>
+
+      <div class="hero__actions" data-reveal>
+        <a class="btn btn--primary" href="/#projects">
+          <span class="icon" aria-hidden="true">›</span> View my work
+        </a>
+        <a class="btn btn--ghost" href="/blog">
+          <span class="icon" aria-hidden="true">§</span> Read the blog
+        </a>
+      </div>
+
+      <div class="hero__badges" data-reveal>
+        <a href={SITE.social.github} target="_blank" rel="noopener" class="hero__badge card">
+          <span class="mono">~/github/7n4xt</span>
+        </a>
+        <a href={SITE.social.linkedin} target="_blank" rel="noopener" class="hero__badge card">
+          <span class="mono">~/linkedin/abdulmalek</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__visual" data-reveal>
+      <div class="hero__terminal card">
+        <div class="hero__terminal-bar">
+          <span class="dot dot--r"></span>
+          <span class="dot dot--y"></span>
+          <span class="dot dot--g"></span>
+          <span class="hero__terminal-title mono">7n4xt@homelab: ~</span>
+        </div>
+        <div class="hero__terminal-body mono">
+          <div class="t-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> fastfetch</div>
+          <div class="t-line t-dim"> OS       → Fedora / Debian · Proxmox</div>
+          <div class="t-line t-dim"> WM       → Hyprland (Wayland)</div>
+          <div class="t-line t-dim"> Stack    → Wazuh · Pi-hole · Grafana</div>
+          <div class="t-line t-dim"> CTF      → HackTheBox · Root-Me</div>
+          <div class="t-line t-dim"> Focus    → Networking · Infra · Security</div>
+          <div class="t-line t-ok"> Status   → [█████████░] in the lab, always</div>
+          <div class="t-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> <span class="t-cursor">▊</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span class="hero__scroll-line"></span>
+  </div>
+</section>
+
+<script>
+  const roles = [
+    'cybersecurity student',
+    'networking & infra enthusiast',
+    'homelab tinkerer',
+    'CTF player',
+    'linux enjoyer',
+  ];
+  const el = document.getElementById('hero-typing');
+  let roleIdx = 0;
+  let charIdx = 0;
+  let deleting = false;
+
+  function tick() {
+    const word = roles[roleIdx];
+    charIdx += deleting ? -1 : 1;
+    el.textContent = word.slice(0, charIdx);
+    let delay = deleting ? 45 : 85;
+    if (!deleting && charIdx === word.length) {
+      delay = 1700;
+      deleting = true;
+    } else if (deleting && charIdx === 0) {
+      deleting = false;
+      roleIdx = (roleIdx + 1) % roles.length;
+      delay = 350;
+    }
+    setTimeout(tick, delay);
+  }
+  tick();
+
+  const clock = document.getElementById('hero-clock');
+  function updateClock() {
+    const now = new Date();
+    clock.textContent = now.toLocaleTimeString('en-GB', { hour12: false });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: var(--nav-height);
+    position: relative;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: center;
+    padding-block: 3rem;
+  }
+
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--success);
+    background: rgba(163, 190, 140, 0.08);
+    border: 1px solid rgba(163, 190, 140, 0.25);
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__pulse {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 0 rgba(163, 190, 140, 0.6);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(163, 190, 140, 0.55); }
+    70% { box-shadow: 0 0 0 9px rgba(163, 190, 140, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(163, 190, 140, 0); }
+  }
+
+  .hero__tz, .hero__loc {
+    color: var(--text-muted);
+  }
+
+  .hero__title {
+    font-size: clamp(2.2rem, 5.5vw, 3.9rem);
+    margin-bottom: 1rem;
+  }
+
+  .hero__name {
+    background: linear-gradient(120deg, var(--nord8), var(--nord9));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero__typing {
+    font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+    color: var(--nord13);
+    min-height: 2.2rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .hero__prompt {
+    color: var(--nord14);
+  }
+
+  .hero__caret {
+    color: var(--accent);
+    animation: blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  .hero__sub {
+    color: var(--text-secondary);
+    font-size: 1.08rem;
+    max-width: 56ch;
+    margin-bottom: 2rem;
+  }
+
+  .hero__sub strong {
+    color: var(--text-primary);
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .hero__badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    transition: all var(--transition);
+  }
+
+  .hero__badge:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* ---- Terminal card ---- */
+  .hero__terminal {
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  }
+
+  .hero__terminal:hover {
+    transform: translateY(-4px);
+  }
+
+  .hero__terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(16, 19, 26, 0.5);
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot--r { background: var(--nord11); }
+  .dot--y { background: var(--nord13); }
+  .dot--g { background: var(--nord14); }
+
+  .hero__terminal-title {
+    margin-left: 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  .hero__terminal-body {
+    padding: 1.3rem 1.4rem;
+    font-size: 0.88rem;
+    line-height: 2;
+    overflow: hidden;
+  }
+
+  .t-line {
+    white-space: nowrap;
+  }
+
+  .t-prompt {
+    color: var(--nord14);
+  }
+
+  .t-dir {
+    color: var(--accent);
+  }
+
+  .t-dim {
+    color: var(--text-muted);
+  }
+
+  .t-ok {
+    color: var(--success);
+  }
+
+  .t-cursor {
+    color: var(--accent);
+    animation: blink 1s steps(2, start) infinite;
+  }
+
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 38px;
+    border: 2px solid var(--nord3);
+    border-radius: var(--radius-full);
+    display: flex;
+    justify-content: center;
+    padding-top: 7px;
+  }
+
+  .hero__scroll-line {
+    width: 3px;
+    height: 9px;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    animation: scroll-hint 1.8s ease-in-out infinite;
+  }
+
+  @keyframes scroll-hint {
+    0% { transform: translateY(0); opacity: 1; }
+    70% { transform: translateY(12px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0; }
+  }
+
+  @media (max-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding-block: 4rem 2rem;
+    }
+    .hero__scroll { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .t-line { white-space: normal; }
+  }
+</style>

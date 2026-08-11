@@ -1,0 +1,15 @@
+# build output
+dist/
+
+# dependencies
+node_modules/
+
+# logs
+*.log
+
+# editor
+.vscode/
+.idea/
+
+# astro
+.astro/

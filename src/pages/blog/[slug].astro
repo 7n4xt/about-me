@@ -1,0 +1,180 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE } from '../../lib/site';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate, tags } = post.data;
+const readingTime = Math.max(1, Math.ceil(post.body.length / 800));
+
+function format(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title={title} description={description}>
+  <article class="article">
+    <div class="container article__inner">
+      <header class="article__head">
+        <a href="/blog" class="article__back mono">&larr; back to blog</a>
+
+        <div class="article__meta mono">
+          <time datetime={pubDate.toISOString()}>{format(pubDate)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime} min read</span>
+          {updatedDate && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span class="article__updated">updated {format(updatedDate)}</span>
+            </>
+          )}
+        </div>
+
+        <h1 class="article__title">{title}</h1>
+        <p class="article__desc">{description}</p>
+
+        {tags.length > 0 && (
+          <div class="article__tags">
+            {tags.map((tag) => (
+              <span class="article__tag mono">#{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <footer class="article__foot">
+        <div class="article__author card">
+          <img src="/photos/profile.jpg" alt={SITE.author} class="article__avatar" loading="lazy" />
+          <div>
+            <p class="article__author-name mono">{SITE.author} — 7n4xt</p>
+            <p class="article__author-bio">
+              Cybersecurity student specializing in networking &amp; infrastructure.
+              Write me at <a href={`mailto:${SITE.email}`} class="mono">{SITE.email}</a>.
+            </p>
+          </div>
+        </div>
+        <a class="btn btn--ghost article__next" href="/blog">More posts</a>
+      </footer>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article {
+    padding-top: calc(var(--nav-height) + 3.5rem);
+    padding-bottom: 5rem;
+  }
+
+  .article__inner {
+    max-width: 760px;
+  }
+
+  .article__head {
+    margin-bottom: 3rem;
+  }
+
+  .article__back {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .article__back:hover {
+    color: var(--accent);
+  }
+
+  .article__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .article__updated {
+    color: var(--warning);
+  }
+
+  .article__title {
+    font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+    margin-bottom: 1rem;
+  }
+
+  .article__desc {
+    color: var(--text-secondary);
+    font-size: 1.08rem;
+  }
+
+  .article__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+  }
+
+  .article__tag {
+    font-size: 0.78rem;
+    color: var(--nord8);
+    background: rgba(136, 192, 208, 0.1);
+    border: 1px solid var(--border-subtle);
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-full);
+  }
+
+  .article__foot {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .article__author {
+    display: flex;
+    gap: 1.1rem;
+    align-items: center;
+    padding: 1.4rem;
+  }
+
+  .article__avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    object-fit: cover;
+  }
+
+  .article__author-name {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  .article__author-bio {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .article__next {
+    align-self: flex-start;
+  }
+
+  @media (max-width: 640px) {
+    .article__author {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+
+<Layout title="Blog" description="Notes, write-ups and deep dives by Abdulmalek Esughi — networking, infrastructure, security and homelab experiments.">
+  <section class="blog section">
+    <div class="container">
+      <header class="blog__head" data-reveal>
+        <a href="/" class="blog__back mono">&larr; back home</a>
+        <p class="section__label mono">// blog</p>
+        <h1 class="blog__title">Notes from the lab</h1>
+        <p class="blog__subtitle">
+          Write-ups, experiments and lessons learned while breaking things on purpose.
+        </p>
+      </header>
+
+      <div class="blog__filters mono" data-reveal>
+        <button class="blog__filter is-active" data-filter="all">#all</button>
+        {allTags.map((tag) => (
+          <button class="blog__filter" data-filter={tag}>#{tag}</button>
+        ))}
+      </div>
+
+      <div class="blog__grid" id="blog-grid" data-reveal>
+        {posts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+
+      {posts.length === 0 && (
+        <p class="blog__empty mono">no posts yet — the lab is still warming up.</p>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const filters = document.querySelectorAll('.blog__filter');
+  const grid = document.getElementById('blog-grid');
+  const cards = grid ? Array.from(grid.querySelectorAll('.post-card')) : [];
+
+  filters.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filters.forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      const tag = btn.dataset.filter;
+
+      cards.forEach((card) => {
+        const tags = Array.from(card.querySelectorAll('.post-card__tag')).map((t) =>
+          t.textContent.replace('#', '')
+        );
+        const show = tag === 'all' || tags.includes(tag);
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+  .blog__head {
+    margin-bottom: 2.5rem;
+  }
+
+  .blog__back {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+  }
+
+  .blog__back:hover {
+    color: var(--accent);
+  }
+
+  .blog__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .blog__subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 60ch;
+  }
+
+  .blog__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .blog__filter {
+    font-family: inherit;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    background: rgba(16, 19, 26, 0.5);
+    border: 1px solid var(--border-subtle);
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .blog__filter:hover {
+    color: var(--accent);
+    border-color: var(--border-strong);
+  }
+
+  .blog__filter.is-active {
+    color: var(--bg-deep);
+    background: linear-gradient(135deg, var(--nord8), var(--nord10));
+    border-color: transparent;
+  }
+
+  .blog__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .blog__empty {
+    color: var(--text-muted);
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 980px) {
+    .blog__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 620px) {
+    .blog__grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,212 @@
+---
+import { SITE } from '../lib/site';
+
+const timeline = [
+  {
+    period: 'Now',
+    role: 'Networking & Infrastructure — 3rd Year',
+    org: 'Specializing in network & infrastructure engineering',
+    desc: 'Deep-diving into network architectures, server administration, virtualization, and building resilient infrastructure on my Proxmox homelab.',
+    color: 'accent',
+  },
+  {
+    period: '2023 — 2nd Year',
+    role: 'Cybersecurity Studies',
+    org: 'Computer Science',
+    desc: 'Focused on offensive and defensive security: Wazuh SIEM, Wireshark analysis, system hardening, and HackTheBox CTF grinding.',
+    color: 'success',
+  },
+  {
+    period: '2022 / Libya',
+    role: 'Moved to Marseille, France',
+    org: 'Pursuing higher education',
+    desc: 'Relocated from Libya to France to study computer science and build a career in cybersecurity and IT infrastructure.',
+    color: 'warning',
+  },
+];
+---
+
+<section class="about section" id="about">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="section__label mono">// about</p>
+      <h2 class="section__title">Security-minded, infrastructure-driven</h2>
+      <p class="section__subtitle">
+        I'm a computer science student who likes to understand how the whole stack fits
+        together — from the physical NIC up to the services running on top. If a system
+        can be broken, I want to know how — and how to defend it.
+      </p>
+    </header>
+
+    <div class="about__grid">
+      <div class="about__lead card" data-reveal>
+        <div class="about__lead-head mono">
+          <span class="about__lead-label">$ cat /etc/profile.d/me.sh</span>
+        </div>
+        <p>
+          From <strong>Libya</strong> to <strong>Marseille</strong>, I've been building my
+          expertise at the intersection of networking, infrastructure, and cybersecurity.
+          My homelab — <span class="mono">a Proxmox box running Wazuh, Pi-hole, Grafana,
+          and more</span> — is my playground for learning how production systems behave.
+        </p>
+        <p>
+          I don't stop at theory. I self-host, I break, I rebuild, and I document everything
+          I learn on this blog. That's how I go from "knows about X" to "deployed X and fixed
+          it when it broke at 2 AM."
+        </p>
+        <div class="about__facts mono">
+          <div><span class="about__fact-k">location</span><span>{SITE.location}</span></div>
+          <div><span class="about__fact-k">origin</span><span>Libya → Europe</span></div>
+          <div><span class="about__fact-k">coffee</span><span>[█████████░] critical</span></div>
+          <div><span class="about__fact-k">status</span><span>learning 24/7</span></div>
+        </div>
+      </div>
+
+      <div class="about__timeline" data-reveal>
+        {timeline.map((t, i) => (
+          <div class="tl-item">
+            <div class={`tl-dot tl-dot--${t.color}`} aria-hidden="true"></div>
+            <div class="tl-card card">
+              <span class="tl-period mono">{t.period}</span>
+              <h3 class="tl-role">{t.role}</h3>
+              <span class="tl-org mono">{t.org}</span>
+              <p>{t.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section__head {
+    margin-bottom: 3.5rem;
+    max-width: 760px;
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .about__lead {
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .about__lead-head {
+    color: var(--accent);
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.8rem;
+  }
+
+  .about__lead p {
+    color: var(--text-secondary);
+  }
+
+  .about__lead strong {
+    color: var(--text-primary);
+  }
+
+  .about__facts {
+    margin-top: 0.5rem;
+    border-top: 1px dashed var(--border-subtle);
+    padding-top: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .about__facts div {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .about__fact-k {
+    color: var(--accent);
+    width: 8.5rem;
+    flex-shrink: 0;
+  }
+
+  .about__facts span:not(.about__fact-k) {
+    color: var(--text-secondary);
+  }
+
+  /* Timeline */
+  .about__timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about__timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--nord8), var(--nord10), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    padding-left: 2.2rem;
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: 0;
+    top: 1.1rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--bg-base);
+    border: 3px solid currentColor;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .tl-dot--accent { color: var(--accent); }
+  .tl-dot--success { color: var(--success); }
+  .tl-dot--warning { color: var(--warning); }
+
+  .tl-card {
+    padding: 1.3rem 1.5rem;
+  }
+
+  .tl-period {
+    color: var(--accent);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .tl-role {
+    font-size: 1.1rem;
+    margin-block: 0.3rem 0.1rem;
+  }
+
+  .tl-org {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+  }
+
+  .tl-card p {
+    margin-top: 0.6rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 900px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
