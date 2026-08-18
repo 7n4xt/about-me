@@ -20,9 +20,9 @@ import { SITE } from '../lib/site';
       </p>
 
       <p class="hero__sub" data-reveal>
-        Cybersecurity student specializing in <strong>networking &amp; infrastructure</strong>.
-        From Libya, building my career in Marseille — I stand up homelabs, harden systems,
-        and break things on purpose to learn how they work.
+        Networking &amp; infrastructure student in <strong>Marseille, France</strong>,
+        with a cybersecurity background. Working toward the <strong>CCNA</strong> — I stand
+        up homelabs, harden systems, and break things on purpose to learn how they work.
       </p>
 
       <div class="hero__actions" data-reveal>
@@ -53,13 +53,37 @@ import { SITE } from '../lib/site';
           <span class="hero__terminal-title mono">7n4xt@homelab: ~</span>
         </div>
         <div class="hero__terminal-body mono">
-          <div class="t-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> fastfetch</div>
-          <div class="t-line t-dim"> OS       → Fedora / Debian · Proxmox</div>
-          <div class="t-line t-dim"> WM       → Hyprland (Wayland)</div>
-          <div class="t-line t-dim"> Stack    → Wazuh · Pi-hole · Grafana</div>
-          <div class="t-line t-dim"> CTF      → HackTheBox · Root-Me</div>
-          <div class="t-line t-dim"> Focus    → Networking · Infra · Security</div>
-          <div class="t-line t-ok"> Status   → [█████████░] in the lab, always</div>
+          <div class="t-line t-prompt-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> fastfetch</div>
+          <div class="t-fastfetch">
+            <pre class="t-ascii" aria-hidden="true"><span class="c1">             .',;::::;,'.
+         .';:cccccccccccc:;,.
+      .;cccccccccccccccccccccc;.
+    .:cccccccccccccccccccccccccc:.
+  .;ccccccccccccc;</span><span class="c2">.:dddl:.</span><span class="c1">;ccccccc;.
+ .:ccccccccccccc;</span><span class="c2">OWMKOOXMWd</span><span class="c1">;ccccccc:.
+.:ccccccccccccc;</span><span class="c2">KMMc</span><span class="c1">;cc;</span><span class="c2">xMMc</span><span class="c1">;ccccccc:.
+,cccccccccccccc;</span><span class="c2">MMM.</span><span class="c1">;cc;</span><span class="c2">;WW:</span><span class="c1">;cccccccc,
+:cccccccccccccc;</span><span class="c2">MMM.</span><span class="c1">;cccccccccccccccc:
+:ccccccc;</span><span class="c2">oxOOOo</span><span class="c1">;</span><span class="c2">MMM000k.</span><span class="c1">;cccccccccccc:
+cccccc;</span><span class="c2">0MMKxdd:</span><span class="c1">;</span><span class="c2">MMMkddc.</span><span class="c1">;cccccccccccc;
+ccccc;</span><span class="c2">XMO'</span><span class="c1">;cccc;</span><span class="c2">MMM.</span><span class="c1">;cccccccccccccccc'
+ccccc;</span><span class="c2">MMo</span><span class="c1">;ccccc;</span><span class="c2">MMW.</span><span class="c1">;ccccccccccccccc;
+ccccc;</span><span class="c2">0MNc.</span><span class="c1">ccc</span><span class="c2">.xMMd</span><span class="c1">;ccccccccccccccc;
+cccccc;</span><span class="c2">dNMWXXXWM0:</span><span class="c1">;cccccccccccccc:,
+cccccccc;</span><span class="c2">.:odl:.</span><span class="c1">;cccccccccccccc:,.
+ccccccccccccccccccccccccccccc:'.
+:ccccccccccccccccccccccc:;,..
+ ':cccccccccccccccc::;,.</span></pre>
+            <div class="t-info">
+              <div class="t-line t-dim"> OS       → Fedora / Debian · Proxmox</div>
+              <div class="t-line t-dim"> WM       → Hyprland (Wayland)</div>
+              <div class="t-line t-dim"> Stack    → Wazuh · Pi-hole · Grafana</div>
+              <div class="t-line t-dim"> CCNA     → in progress</div>
+              <div class="t-line t-dim"> CTF      → HackTheBox · Root-Me</div>
+              <div class="t-line t-dim"> Focus    → Networking · Infra</div>
+              <div class="t-line t-ok"> Status   → [█████████░] always learning</div>
+            </div>
+          </div>
           <div class="t-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> <span class="t-cursor">▊</span></div>
         </div>
       </div>
@@ -73,10 +97,10 @@ import { SITE } from '../lib/site';
 
 <script>
   const roles = [
-    'cybersecurity student',
-    'networking & infra enthusiast',
+    'networking & infra student',
+    'working toward CCNA',
     'homelab tinkerer',
-    'CTF player',
+    'cybersecurity background',
     'linux enjoyer',
   ];
   const el = document.getElementById('hero-typing');
@@ -274,6 +298,44 @@ import { SITE } from '../lib/site';
   }
 
   .t-line {
+    white-space: nowrap;
+  }
+
+  .t-prompt-line {
+    margin-bottom: 0.5rem;
+  }
+
+  .t-fastfetch {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin-bottom: 0.4rem;
+  }
+
+  .t-ascii {
+    margin: 0;
+    padding: 0;
+    line-height: 1.35;
+    font-size: 0.62rem;
+    color: var(--nord8);
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .t-ascii .c2 {
+    color: var(--nord6);
+  }
+
+  .t-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-top: 0.15rem;
+    min-width: 0;
+  }
+
+  .t-info .t-line {
+    font-size: 0.8rem;
     white-space: nowrap;
   }
 

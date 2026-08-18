@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#171a22"/>
+      <stop offset="1" stop-color="#10131a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="420" rx="16" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="959" height="419" rx="16" fill="none" stroke="#88c0d0" stroke-opacity="0.2"/>
+  <text x="480" y="44" text-anchor="middle" font-size="22" font-weight="700" fill="#eceff4" letter-spacing="1">Pile technique du stage</text>
+
+  <g font-size="12" fill="#eceff4">
+    <!-- Row 1 -->
+    <rect x="30" y="85" width="210" height="110" rx="12" fill="#1d212b" stroke="#88c0d0" stroke-opacity="0.4"/>
+    <text x="135" y="112" text-anchor="middle" font-weight="700" fill="#88c0d0">Langage &amp; Framework</text>
+    <text x="135" y="138" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">Python 3.13</text>
+    <text x="135" y="158" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">DI maison (Context/registry)</text>
+    <text x="135" y="178" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">event-driven hooks</text>
+
+    <rect x="260" y="85" width="210" height="110" rx="12" fill="#1d212b" stroke="#5e81ac" stroke-opacity="0.5"/>
+    <text x="365" y="112" text-anchor="middle" font-weight="700" fill="#81a1c1">Machine Learning</text>
+    <text x="365" y="138" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">pandas · scikit-learn</text>
+    <text x="365" y="158" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">RandomForestClassifier</text>
+    <text x="365" y="178" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">joblib · ~23 features</text>
+
+    <rect x="490" y="85" width="210" height="110" rx="12" fill="#1d212b" stroke="#88c0d0" stroke-opacity="0.4"/>
+    <text x="595" y="112" text-anchor="middle" font-weight="700" fill="#88c0d0">LLM</text>
+    <text x="595" y="138" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">DeepSeek (deepseek-chat)</text>
+    <text x="595" y="158" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">openai SDK</text>
+    <text x="595" y="178" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">tool-calling</text>
+
+    <rect x="720" y="85" width="210" height="110" rx="12" fill="#1d212b" stroke="#ebcb8b" stroke-opacity="0.5"/>
+    <text x="825" y="112" text-anchor="middle" font-weight="700" fill="#ebcb8b">Messagerie</text>
+    <text x="825" y="138" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">Apache Kafka (KRaft)</text>
+    <text x="825" y="158" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">kafka-python</text>
+    <text x="825" y="178" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">topics suggestions/retrain</text>
+
+    <!-- Row 2 -->
+    <rect x="30" y="215" width="210" height="110" rx="12" fill="#1d212b" stroke="#a3be8c" stroke-opacity="0.5"/>
+    <text x="135" y="242" text-anchor="middle" font-weight="700" fill="#a3be8c">Données</text>
+    <text x="135" y="268" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">PostgreSQL 17 (psycopg2)</text>
+    <text x="135" y="288" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">Redis 7 (cache, ACL)</text>
+    <text x="135" y="308" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">InfluxDB 1.8 (time series)</text>
+
+    <rect x="260" y="215" width="210" height="110" rx="12" fill="#1d212b" stroke="#88c0d0" stroke-opacity="0.4"/>
+    <text x="365" y="242" text-anchor="middle" font-weight="700" fill="#88c0d0">API</text>
+    <text x="365" y="268" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">ThreadPoolHTTPServer</text>
+    <text x="365" y="288" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">max_workers=10</text>
+    <text x="365" y="308" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">clé API header</text>
+
+    <rect x="490" y="215" width="210" height="110" rx="12" fill="#1d212b" stroke="#5e81ac" stroke-opacity="0.5"/>
+    <text x="595" y="242" text-anchor="middle" font-weight="700" fill="#81a1c1">Conteneurisation</text>
+    <text x="595" y="268" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">Docker Compose</text>
+    <text x="595" y="288" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">Dockerfiles custom</text>
+    <text x="595" y="308" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">seed SQL à l'init</text>
+
+    <rect x="720" y="215" width="210" height="110" rx="12" fill="#1d212b" stroke="#d08770" stroke-opacity="0.5"/>
+    <text x="825" y="242" text-anchor="middle" font-weight="700" fill="#d08770">Qualité</text>
+    <text x="825" y="268" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">unittest (5 modules)</text>
+    <text x="825" y="288" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">mock OpenAI/Postgres/Redis</text>
+    <text x="825" y="308" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#9aa5b8">git · gestion d'env (LLM_TOKEN)</text>
+
+    <!-- Git discipline footer -->
+    <rect x="30" y="345" width="900" height="42" rx="10" fill="#2e3440" stroke="#4c566a"/>
+    <text x="480" y="371" text-anchor="middle" font-size="12" fill="#9aa5b8" font-family="monospace">Méthode : git &amp; GitHub · commits réguliers · documentation (explications + analogies) · assistance IA en mode « tutoriel »</text>
+  </g>
+
+  <text x="480" y="407" text-anchor="middle" font-size="10.5" fill="#67707f" font-family="monospace">Fig. 2 — Outils, technologies et méthodes utilisés pendant le stage</text>
+</svg>

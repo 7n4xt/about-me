@@ -3,25 +3,32 @@ import { SITE } from '../lib/site';
 
 const timeline = [
   {
-    period: 'Now',
-    role: 'Networking & Infrastructure — 3rd Year',
-    org: 'Specializing in network & infrastructure engineering',
-    desc: 'Deep-diving into network architectures, server administration, virtualization, and building resilient infrastructure on my Proxmox homelab.',
+    period: 'Now · 3rd Year',
+    role: 'Networking & Infrastructure',
+    org: 'CCNA in progress',
+    desc: 'Deep-diving into network architectures, routing & switching, server administration, and virtualization — preparing for the CCNA while building resilient infrastructure on my Proxmox homelab.',
     color: 'accent',
   },
   {
-    period: '2023 — 2nd Year',
-    role: 'Cybersecurity Studies',
-    org: 'Computer Science',
-    desc: 'Focused on offensive and defensive security: Wazuh SIEM, Wireshark analysis, system hardening, and HackTheBox CTF grinding.',
+    period: '2024 — 2025 · 1st–2nd Years',
+    role: 'Computer Science — Cybersecurity specialisation',
+    org: 'Cybersecurity foundations',
+    desc: 'Focused on offensive and defensive security: Wazuh SIEM, Wireshark analysis, system hardening, and HackTheBox CTF grinding. Those two years gave me the security mindset I now apply to infrastructure.',
     color: 'success',
   },
   {
-    period: '2022 / Libya',
-    role: 'Moved to Marseille, France',
-    org: 'Pursuing higher education',
-    desc: 'Relocated from Libya to France to study computer science and build a career in cybersecurity and IT infrastructure.',
+    period: '2023',
+    role: 'French language year',
+    org: 'Preparing for studies in France',
+    desc: 'Spent a year learning French after moving to Marseille, getting ready to study computer science in a new country.',
     color: 'warning',
+  },
+  {
+    period: 'End of 2022',
+    role: 'Moved from Libya to Marseille, France',
+    org: 'New chapter',
+    desc: 'Relocated from Libya to France at the end of 2022 to study computer science and build a career in networks and IT infrastructure.',
+    color: 'danger',
   },
 ];
 ---
@@ -30,11 +37,11 @@ const timeline = [
   <div class="container">
     <header class="section__head" data-reveal>
       <p class="section__label mono">// about</p>
-      <h2 class="section__title">Security-minded, infrastructure-driven</h2>
+      <h2 class="section__title">From cyber foundations to network infrastructure</h2>
       <p class="section__subtitle">
-        I'm a computer science student who likes to understand how the whole stack fits
-        together — from the physical NIC up to the services running on top. If a system
-        can be broken, I want to know how — and how to defend it.
+        I'm a networking &amp; infrastructure student who started in cybersecurity — and
+        that security mindset never left me. I like to understand how the whole stack fits
+        together, from the physical NIC up to the services running on top.
       </p>
     </header>
 
@@ -44,9 +51,10 @@ const timeline = [
           <span class="about__lead-label">$ cat /etc/profile.d/me.sh</span>
         </div>
         <p>
-          From <strong>Libya</strong> to <strong>Marseille</strong>, I've been building my
-          expertise at the intersection of networking, infrastructure, and cybersecurity.
-          My homelab — <span class="mono">a Proxmox box running Wazuh, Pi-hole, Grafana,
+          From <strong>Libya</strong> to <strong>Marseille</strong>, I started with two
+          years of cybersecurity studies, then moved into my true lane: networking and
+          infrastructure. I'm now in my 3rd year, working toward the <strong>CCNA</strong>,
+          and my homelab — <span class="mono">a Proxmox box running Wazuh, Pi-hole, Grafana,
           and more</span> — is my playground for learning how production systems behave.
         </p>
         <p>
@@ -177,6 +185,7 @@ const timeline = [
   .tl-dot--accent { color: var(--accent); }
   .tl-dot--success { color: var(--success); }
   .tl-dot--warning { color: var(--warning); }
+  .tl-dot--danger { color: var(--danger); }
 
   .tl-card {
     padding: 1.3rem 1.5rem;

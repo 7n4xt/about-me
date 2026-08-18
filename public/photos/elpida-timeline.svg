@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#171a22"/>
+      <stop offset="1" stop-color="#10131a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="430" rx="16" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="959" height="429" rx="16" fill="none" stroke="#88c0d0" stroke-opacity="0.2"/>
+  <text x="480" y="42" text-anchor="middle" font-size="22" font-weight="700" fill="#eceff4" letter-spacing="1">Déroulement du stage — 5 semaines</text>
+  <text x="480" y="66" text-anchor="middle" font-size="12" fill="#9aa5b8" font-family="monospace">01/07/2026 → 07/08/2026 · 168 h · à distance</text>
+
+  <!-- Timeline line -->
+  <line x1="80" y1="200" x2="880" y2="200" stroke="#4c566a" stroke-width="2"/>
+
+  <g font-size="12" fill="#eceff4">
+    <!-- Week 1 -->
+    <circle cx="120" cy="200" r="9" fill="#5e81ac"/>
+    <text x="120" y="165" text-anchor="middle" font-weight="700" fill="#81a1c1">S1</text>
+    <rect x="45" y="225" width="150" height="110" rx="10" fill="#1d212b" stroke="#5e81ac" stroke-opacity="0.5"/>
+    <text x="120" y="248" text-anchor="middle" font-weight="600" fill="#eceff4">Découverte</text>
+    <text x="120" y="272" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">cadre du stage</text>
+    <text x="120" y="290" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">architecture composant</text>
+    <text x="120" y="308" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">context + DI + config</text>
+
+    <!-- Week 2 -->
+    <circle cx="300" cy="200" r="9" fill="#88c0d0"/>
+    <text x="300" y="165" text-anchor="middle" font-weight="700" fill="#88c0d0">S2</text>
+    <rect x="225" y="225" width="150" height="110" rx="10" fill="#1d212b" stroke="#88c0d0" stroke-opacity="0.5"/>
+    <text x="300" y="248" text-anchor="middle" font-weight="600" fill="#eceff4">Fondations</text>
+    <text x="300" y="272" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">bases de données</text>
+    <text x="300" y="290" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">composants PG/Redis/Influx</text>
+    <text x="300" y="308" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">Kafka producer/consumer</text>
+
+    <!-- Week 3 -->
+    <circle cx="480" cy="200" r="9" fill="#ebcb8b"/>
+    <text x="480" y="165" text-anchor="middle" font-weight="700" fill="#ebcb8b">S3</text>
+    <rect x="405" y="225" width="150" height="110" rx="10" fill="#1d212b" stroke="#ebcb8b" stroke-opacity="0.5"/>
+    <text x="480" y="248" text-anchor="middle" font-weight="600" fill="#eceff4">IA &amp; ML</text>
+    <text x="480" y="272" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">AgentSales</text>
+    <text x="480" y="290" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">pipeline RandomForest</text>
+    <text x="480" y="308" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">archi event-driven</text>
+
+    <!-- Week 4 -->
+    <circle cx="660" cy="200" r="9" fill="#a3be8c"/>
+    <text x="660" y="165" text-anchor="middle" font-weight="700" fill="#a3be8c">S4</text>
+    <rect x="585" y="225" width="150" height="110" rx="10" fill="#1d212b" stroke="#a3be8c" stroke-opacity="0.5"/>
+    <text x="660" y="248" text-anchor="middle" font-weight="600" fill="#eceff4">Service IA</text>
+    <text x="660" y="272" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">LLMChat + DeepSeek</text>
+    <text x="660" y="290" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">API REST + thread pool</text>
+    <text x="660" y="308" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">tests unitaires</text>
+
+    <!-- Week 5 -->
+    <circle cx="840" cy="200" r="9" fill="#d08770"/>
+    <text x="840" y="165" text-anchor="middle" font-weight="700" fill="#d08770">S5</text>
+    <rect x="765" y="225" width="150" height="110" rx="10" fill="#1d212b" stroke="#d08770" stroke-opacity="0.5"/>
+    <text x="840" y="248" text-anchor="middle" font-weight="600" fill="#eceff4">Livraison</text>
+    <text x="840" y="272" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">intégration finale</text>
+    <text x="840" y="290" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">documentation</text>
+    <text x="840" y="308" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#9aa5b8">bilan &amp; livrable</text>
+  </g>
+
+  <text x="480" y="380" text-anchor="middle" font-size="10.5" fill="#67707f" font-family="monospace">Fig. 3 — Phases du stage, de la découverte de l'architecture à la livraison du « Service IA »</text>
+  <text x="480" y="408" text-anchor="middle" font-size="11" fill="#9aa5b8">Semaines marquées par une montée en compétence progressive et une autonomie croissante.</text>
+</svg>

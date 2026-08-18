@@ -10,7 +10,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 ---
 
-<Layout title="Blog" description="Notes, write-ups and deep dives by Abdulmalek Esughi — networking, infrastructure, security and homelab experiments.">
+<Layout title="Blog" description="Notes, write-ups and deep dives by Abdulmalek Esughi — networking, infrastructure, cybersecurity and homelab experiments.">
   <section class="blog section">
     <div class="container">
       <header class="blog__head" data-reveal>

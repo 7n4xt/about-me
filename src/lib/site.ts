@@ -2,9 +2,9 @@ export const SITE = {
   title: 'Abdulmalek Esughi — 7n4xt',
   author: 'Abdulmalek Esughi',
   username: '7n4xt',
-  tagline: 'Cybersecurity & Infrastructure Student',
+  tagline: 'Networking & Infrastructure Student',
   description:
-    'Portfolio of Abdulmalek Esughi (7n4xt) — cybersecurity student from Libya, based in Marseille, France. Specializing in networking and infrastructure.',
+    'Portfolio of Abdulmalek Esughi (7n4xt) — networking & infrastructure student in Marseille, France. CCNA in progress, cybersecurity background. From Libya.',
   url: 'https://7n4xt.pages.dev',
   location: 'Marseille, France',
   email: 'abdul.esughi@gmail.com',
