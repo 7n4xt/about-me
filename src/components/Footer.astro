@@ -1,5 +1,9 @@
 ---
 import { SITE } from '../lib/site';
+import { useTranslations } from '../lib/translate';
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
 
 const year = new Date().getFullYear();
 ---
@@ -10,29 +14,33 @@ const year = new Date().getFullYear();
       <div class="footer__blurb">
         <p class="footer__brand mono">$ whoami</p>
         <p>
-          {SITE.author} — {SITE.tagline}. From Libya, based in {SITE.location}.
-          Always building, always breaking things to understand them.
+          {SITE.author}
+          <span data-en={t('footer.blurb1')} data-fr={tr.t('footer.blurb1')}>{t('footer.blurb1')}</span>
+          <span data-en={SITE.tagline} data-fr="Étudiant en réseaux & infrastructure">{SITE.tagline}</span>.
+          <span data-en={t('footer.blurb2')} data-fr={tr.t('footer.blurb2')}>{t('footer.blurb2')}</span>
+          {SITE.location}.
+          <span data-en={t('footer.blurb3')} data-fr={tr.t('footer.blurb3')}>{t('footer.blurb3')}</span>
         </p>
       </div>
 
       <div class="footer__col">
-        <h4 class="footer__heading mono">Navigate</h4>
-        <a href="/#home">Home</a>
-        <a href="/#about">About</a>
-        <a href="/#projects">Projects</a>
-        <a href="/blog">Blog</a>
+        <h4 class="footer__heading mono" data-en={t('footer.navigate')} data-fr={tr.t('footer.navigate')}>{t('footer.navigate')}</h4>
+        <a href="/#home" data-en={t('nav.home')} data-fr={tr.t('nav.home')}>{t('nav.home')}</a>
+        <a href="/#about" data-en={t('nav.about')} data-fr={tr.t('nav.about')}>{t('nav.about')}</a>
+        <a href="/#projects" data-en={t('nav.projects')} data-fr={tr.t('nav.projects')}>{t('nav.projects')}</a>
+        <a href="/blog" data-en={t('nav.blog')} data-fr={tr.t('nav.blog')}>{t('nav.blog')}</a>
       </div>
 
       <div class="footer__col">
-        <h4 class="footer__heading mono">Connect</h4>
+        <h4 class="footer__heading mono" data-en={t('footer.connect')} data-fr={tr.t('footer.connect')}>{t('footer.connect')}</h4>
         <a href={SITE.social.github} target="_blank" rel="noopener">GitHub</a>
         <a href={SITE.social.linkedin} target="_blank" rel="noopener">LinkedIn</a>
         <a href={SITE.social.instagram} target="_blank" rel="noopener">Instagram</a>
-        <a href={`mailto:${SITE.email}`}>Email</a>
+        <a href={`mailto:${SITE.email}`} data-en={t('footer.email')} data-fr={tr.t('footer.email')}>{t('footer.email')}</a>
       </div>
 
       <div class="footer__col">
-        <h4 class="footer__heading mono">Reach out</h4>
+        <h4 class="footer__heading mono" data-en={t('footer.reachOut')} data-fr={tr.t('footer.reachOut')}>{t('footer.reachOut')}</h4>
         <a href={`mailto:${SITE.email}`} class="mono">{SITE.email}</a>
         <span class="footer__muted mono">discord: {SITE.social.discord}</span>
         <span class="footer__muted">{SITE.location}</span>
@@ -41,7 +49,11 @@ const year = new Date().getFullYear();
 
     <div class="footer__bottom">
       <p class="mono">&copy; {year} {SITE.author} — 7n4xt.</p>
-      <p class="mono">Built with <span class="footer__heart">Astro</span> &amp; the Nord palette.</p>
+      <p class="mono">
+        <span data-en={t('footer.built')} data-fr={tr.t('footer.built')}>{t('footer.built')}</span>
+        <span class="footer__heart">Astro</span>
+        <span data-en={t('footer.palette')} data-fr={tr.t('footer.palette')}>{t('footer.palette')}</span>
+      </p>
     </div>
   </div>
 </footer>

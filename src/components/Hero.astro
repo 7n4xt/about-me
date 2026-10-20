@@ -43,21 +43,10 @@ const tr = useTranslations('fr');
           <span class="icon" aria-hidden="true">§</span>
           <span data-en={t('hero.readBlog')} data-fr={tr.t('hero.readBlog')}>{t('hero.readBlog')}</span>
         </a>
-        <a
-          class="btn btn--ghost"
-          href="/files/ESUGHI-Abdulmalek-CV-FR.pdf"
-          download
-          data-en-download="ESUGHI-Abdulmalek-Alternance-Infra-Reseaux.pdf"
-        >
+        <a class="btn btn--ghost" href="/files/ESUGHI-Abdulmalek-CV.pdf" download>
           <span class="icon" aria-hidden="true">↓</span>
           <span data-en={t('hero.downloadCV')} data-fr={tr.t('hero.downloadCV')}>{t('hero.downloadCV')}</span>
         </a>
-        <a
-          class="btn btn--ghost btn--cv-en"
-          href="/files/ESUGHI-Abdulmalek-Alternance-Infra-Reseaux.pdf"
-          download
-          data-en={t('hero.cvNote')}
-          data-fr={tr.t('hero.cvNote')}>{t('hero.cvNote')}</a>
       </div>
 
       <div class="hero__badges" data-reveal>
@@ -201,8 +190,11 @@ ccccccccccccccccccccccccccccc:'.
   }
 
   .hero__status {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
     color: var(--success);
     background: rgba(163, 190, 140, 0.08);
@@ -210,7 +202,22 @@ ccccccccccccccccccccccccccccc:'.
     padding: 0.35rem 0.9rem;
     border-radius: var(--radius-full);
     font-size: 0.8rem;
+    line-height: 1.5;
     margin-bottom: 1.5rem;
+  }
+
+  /* Keep "Marseille, France" on one line; let the translated status wrap. */
+  .hero__loc {
+    white-space: nowrap;
+  }
+
+  .hero__status > span:last-child {
+    white-space: nowrap;
+  }
+
+  /* Below this width the pill can't hold clock + tz + status on one line. */
+  .hero__tz {
+    display: none;
   }
 
   .hero__pulse {

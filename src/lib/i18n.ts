@@ -120,6 +120,24 @@ export const en = {
   'projects.subtitle':
     "A selection of what I've built and deployed — from security labs to full web platforms. The rest are pulled live from GitHub below.",
   'projects.viewSource': 'view source →',
+  'projects.pNostroguard':
+    'Live SaaS cybersecurity training platform — interactive security exercises delivered through a web platform.',
+  'projects.pVaultCli':
+    'Encrypted local password manager built in Python — secrets never leave your machine.',
+  'projects.pHangmanWeb':
+    'Car-themed web-based Hangman game built with Go — a fun take on the classic word game with a JDM twist.',
+  'projects.pYmmoblier':
+    'Full-stack real estate platform built with PHP MVC — property management with role-based dashboards for users, agents and admins.',
+  'projects.pForumGo':
+    'Modern discussion platform built with Go — search, categories, pagination and an admin panel.',
+  'projects.pEDealership':
+    'Web application for a premium performance car dealership — university project to sharpen JS skills.',
+  'projects.pReseauLinux':
+    'Complete Linux network infrastructure simulation — Nginx, DNS, MariaDB, WireGuard VPN, Samba, firewall and observability.',
+  'projects.pPapery':
+    'Web application for discovering, managing and enjoying high-quality wallpapers — a project exploring API integration.',
+  'projects.pHangmanCli':
+    'Console version of the classic Hangman word game built in Go — read words from a file, guess letters, track your attempts.',
 
   // ---- repos
   'repos.label': '// github',
@@ -171,7 +189,7 @@ export const en = {
   'nf.blog': 'Read the blog',
 } as const;
 
-export type Dict = typeof en;
+export type Dict = { readonly [K in keyof typeof en]: string };
 export type Key = keyof Dict;
 
 export const fr: Dict = {
@@ -202,7 +220,7 @@ export const fr: Dict = {
 
   // ---- hero
   'hero.greeting': 'Bonjour, je suis',
-  'hero.systemOnline': 'système en ligne',
+  'hero.systemOnline': 'en ligne',
   'hero.sub1': 'Étudiant en réseaux et infrastructure à',
   'hero.sub2': ', avec un parcours en cybersécurité. Je prépare le',
   'hero.sub3':
@@ -285,6 +303,24 @@ export const fr: Dict = {
   'projects.subtitle':
     'Une sélection de ce que j’ai construit et déployé — des labs de sécurité aux plateformes web complètes. Le reste est récupéré en direct depuis GitHub ci-dessous.',
   'projects.viewSource': 'voir le code →',
+  'projects.pNostroguard':
+    'Plateforme SaaS de formation en cybersécurité — exercices de sécurité interactifs via une interface web.',
+  'projects.pVaultCli':
+    'Gestionnaire de mots de passe local et chiffré, écrit en Python — les secrets ne quittent jamais la machine.',
+  'projects.pHangmanWeb':
+    'Jeu du pendu web sur le thème automobile, développé en Go — une relecture du classique avec une touche JDM.',
+  'projects.pYmmoblier':
+    'Plateforme immobilière full-stack en PHP MVC — gestion des biens avec tableaux de bord par rôle (utilisateurs, agents, admins).',
+  'projects.pForumGo':
+    'Plateforme de discussion moderne développée en Go — recherche, catégories, pagination et panneau d’administration.',
+  'projects.pEDealership':
+    'Application web pour un concessionnaire de voitures de sport — projet universitaire pour affiner le JavaScript.',
+  'projects.pReseauLinux':
+    'Simulation complète d’une infrastructure réseau Linux — Nginx, DNS, MariaDB, VPN WireGuard, Samba, pare-feu et observabilité.',
+  'projects.pPapery':
+    'Application web pour découvrir, gérer et profiter de fonds d’écran de qualité — un projet autour de l’intégration d’API.',
+  'projects.pHangmanCli':
+    'Version console du jeu du pendu en Go — lecture des mots depuis un fichier, propositions de lettres et suivi des essais.',
 
   // ---- repos
   'repos.label': '// github',

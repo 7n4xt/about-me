@@ -1,79 +1,83 @@
 ---
+import { useTranslations } from '../lib/translate';
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
+
 const featured = [
   {
     title: 'Nostroguard',
-    desc: 'Live SaaS cybersecurity training platform — interactive security exercises delivered through a web platform.',
+    desc: 'projects.pNostroguard',
     stack: ['PHP', 'JavaScript', 'Docker'],
     repo: 'https://github.com/7n4xt/Nostroguard',
     img: '/photos/Nostroguard-preview.png',
   },
   {
     title: 'Vault-CLI',
-    desc: 'Encrypted local password manager built in Python — secrets never leave your machine.',
+    desc: 'projects.pVaultCli',
     stack: ['Python'],
     repo: 'https://github.com/7n4xt/Vault-CLI',
     img: '/photos/Vault-CLI-preview.png',
   },
   {
     title: 'Hangman Web',
-    desc: 'Car-themed web-based Hangman game built with Go — a fun take on the classic word game with a JDM twist.',
+    desc: 'projects.pHangmanWeb',
     stack: ['Go', 'HTML', 'CSS'],
     repo: 'https://github.com/7n4xt/Les-Swappers',
     img: '/photos/hang-engine-preview.png',
   },
   {
     title: 'Ymmoblier',
-    desc: 'Full-stack real estate platform built with PHP MVC — property management with role-based dashboards for users, agents and admins.',
+    desc: 'projects.pYmmoblier',
     stack: ['PHP', 'MySQL', 'MVC'],
     repo: 'https://github.com/7n4xt/fil-rouge-b2',
     img: '/photos/Ymmobilier-preview.png',
   },
   {
     title: 'Forum-Go',
-    desc: 'Modern discussion platform built with Go — search, categories, pagination and an admin panel.',
+    desc: 'projects.pForumGo',
     stack: ['Go', 'MySQL'],
     repo: 'https://github.com/7n4xt/Forum-go',
     img: '/photos/forum-preview.png',
   },
   {
     title: 'E-Dealership',
-    desc: 'Web application for a premium performance car dealership — university project to sharpen JS skills.',
+    desc: 'projects.pEDealership',
     stack: ['JavaScript', 'HTML', 'CSS'],
     repo: 'https://github.com/7n4xt/e-dealership',
     img: '/photos/e-dealership-preview.png',
   },
   {
     title: 'Reseau Linux B2',
-    desc: 'Complete Linux network infrastructure simulation — Nginx, DNS, MariaDB, WireGuard VPN, Samba, firewall and observability.',
+    desc: 'projects.pReseauLinux',
     stack: ['Linux', 'Nginx', 'WireGuard', 'MariaDB'],
     repo: 'https://github.com/Alexandre-ynov/Reseau_linux_B2',
     img: '/photos/linux-networking-preview.png',
   },
   {
     title: 'Papery',
-    desc: 'Web application for discovering, managing and enjoying high-quality wallpapers — a project exploring API integration.',
+    desc: 'projects.pPapery',
     stack: ['HTML', 'CSS', 'JavaScript'],
     repo: 'https://github.com/7n4xt/Papery',
     img: '/photos/papery-preview.png',
   },
   {
     title: 'Hangman CLI',
-    desc: 'Console version of the classic Hangman word game built in Go — read words from a file, guess letters, track your attempts.',
+    desc: 'projects.pHangmanCli',
     stack: ['Go'],
     repo: 'https://github.com/7n4xt/Hangman',
     img: '/photos/hangman-preview.png',
   },
-];
+] as const;
 ---
 
 <section class="projects section" id="projects">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__label mono">// projects</p>
-      <h2 class="section__title">Featured projects</h2>
-      <p class="section__subtitle">
-        A selection of what I've built and deployed — from security labs to full web platforms.
-        The rest are pulled live from GitHub below.
+      <p class="section__label mono" data-en={t('projects.label')} data-fr={tr.t('projects.label')}>{t('projects.label')}</p>
+      <h2 class="section__title" data-en={t('projects.title')} data-fr={tr.t('projects.title')}>{t('projects.title')}</h2>
+      <p class="section__subtitle" data-en={t('projects.subtitle')} data-fr={tr.t('projects.subtitle')}>
+        {t('projects.subtitle')}
       </p>
     </header>
 
@@ -82,11 +86,11 @@ const featured = [
         <a href={p.repo} target="_blank" rel="noopener" class="project card" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
           <div class="project__media">
             <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
-            <div class="project__overlay mono">view source →</div>
+            <div class="project__overlay mono" data-en={t('projects.viewSource')} data-fr={tr.t('projects.viewSource')}>{t('projects.viewSource')}</div>
           </div>
           <div class="project__body">
             <h3 class="project__title">{p.title}</h3>
-            <p class="project__desc">{p.desc}</p>
+            <p class="project__desc" data-en={t(p.desc)} data-fr={tr.t(p.desc)}>{t(p.desc)}</p>
             <div class="project__stack">
               {p.stack.map((s) => (
                 <span class="project__tag mono">{s}</span>

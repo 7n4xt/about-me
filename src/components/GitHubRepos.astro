@@ -1,20 +1,24 @@
 ---
 import { SITE } from '../lib/site';
+import { useTranslations } from '../lib/translate';
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
 ---
 
 <section class="repos section" id="repos">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__label mono">// github</p>
-      <h2 class="section__title">Live from GitHub</h2>
-      <p class="section__subtitle">
-        Public repositories fetched live from the GitHub API — always up to date.
+      <p class="section__label mono" data-en={t('repos.label')} data-fr={tr.t('repos.label')}>{t('repos.label')}</p>
+      <h2 class="section__title" data-en={t('repos.title')} data-fr={tr.t('repos.title')}>{t('repos.title')}</h2>
+      <p class="section__subtitle" data-en={t('repos.subtitle')} data-fr={tr.t('repos.subtitle')}>
+        {t('repos.subtitle')}
       </p>
     </header>
 
     <div class="repos__bar mono" data-reveal>
       <span class="repos__bar-dot"></span>
-      <span id="repos-count">querying api.github.com/users/7n4xt/repos ...</span>
+      <span id="repos-count" data-en={t('repos.querying')} data-fr={tr.t('repos.querying')}>{t('repos.querying')}</span>
     </div>
 
     <div class="repos__grid" id="repos-grid" data-reveal>
@@ -30,51 +34,113 @@ import { SITE } from '../lib/site';
 
     <div class="repos__more" data-reveal>
       <a class="btn btn--ghost" href={SITE.social.github} target="_blank" rel="noopener">
-        View all {SITE.username} on GitHub
+        <span data-en={t('repos.viewAll')} data-fr={tr.t('repos.viewAll')}>{t('repos.viewAll')}</span>
+        {SITE.username}
+        <span data-en={t('repos.viewAllSuffix')} data-fr={tr.t('repos.viewAllSuffix')}>{t('repos.viewAllSuffix')}</span>
       </a>
     </div>
   </div>
 </section>
 
 <script>
-  const username = '7n4xt';
-  const grid = document.getElementById('repos-grid');
-  const countEl = document.getElementById('repos-count');
+  import { watchLang } from '../lib/lang-store';
 
-  function repoCard(r) {
-    const lang = r.language || 'misc';
-    const langClass = lang.toLowerCase().replace(/[^a-z0-9]+/g, '');
+  const username = '7n4xt';
+  const grid = document.getElementById('repos-grid')!;
+  const countEl = document.getElementById('repos-count')!;
+
+  // Mirrors of the dictionary entries used when rendering cards client-side.
+  const T = {
+    en: {
+      noDesc: 'No description provided.',
+      count: (n: number) => `${n} repos · ${username} · sorted by last push`,
+      failed: '⚠ failed to reach GitHub API',
+      errorTitle: 'could not fetch repositories — check network or rate limit.',
+      errorCta: 'Open GitHub instead',
+      stars: 'Stars',
+      forks: 'Forks',
+      fork: 'fork',
+    },
+    fr: {
+      noDesc: 'Aucune description fournie.',
+      count: (n: number) => `${n} dépôts · ${username} · triés par dernier push`,
+      failed: '⚠ API GitHub injoignable',
+      errorTitle: 'impossible de récupérer les dépôts — vérifiez le réseau ou la limite de requêtes.',
+      errorCta: 'Ouvrir GitHub',
+      stars: 'Étoiles',
+      forks: 'Forks',
+      fork: 'fork',
+    },
+  } as const;
+
+  type Lang = keyof typeof T;
+  type Repo = {
+    name: string;
+    description: string | null;
+    language: string | null;
+    stargazers_count: number;
+    forks_count: number;
+    fork: boolean;
+    html_url: string;
+  };
+
+  let state: { kind: 'loading' } | { kind: 'ready'; repos: Repo[] } | { kind: 'error' } = {
+    kind: 'loading',
+  };
+  let lang: Lang = 'en';
+
+  function repoCard(r: Repo, t: (typeof T)['en']) {
+    const language = r.language || 'misc';
+    const langClass = language.toLowerCase().replace(/[^a-z0-9]+/g, '');
     return `
       <a href="${r.html_url}" target="_blank" rel="noopener" class="repo card">
         <div class="repo__head">
           <span class="repo__icon" aria-hidden="true">▰</span>
           <h3 class="repo__name">${r.name}</h3>
         </div>
-        <p class="repo__desc">${r.description || 'No description provided.'}</p>
+        <p class="repo__desc">${r.description || t.noDesc}</p>
         <div class="repo__meta mono">
-          <span class="repo__lang"><i class="repo__lang-dot lang-${langClass}"></i>${lang}</span>
-          <span title="Stars">★ ${r.stargazers_count}</span>
-          <span title="Forks">⑂ ${r.forks_count}</span>
-          ${r.fork ? '<span class="repo__forked">fork</span>' : ''}
+          <span class="repo__lang"><i class="repo__lang-dot lang-${langClass}"></i>${language}</span>
+          <span title="${t.stars}">★ ${r.stargazers_count}</span>
+          <span title="${t.forks}">⑂ ${r.forks_count}</span>
+          ${r.fork ? `<span class="repo__forked">${t.fork}</span>` : ''}
         </div>
       </a>`;
   }
+
+  function render() {
+    const t = T[lang];
+    if (state.kind === 'loading') return;
+
+    if (state.kind === 'error') {
+      countEl.textContent = t.failed;
+      grid.innerHTML = `
+        <div class="repos__error card">
+          <p class="mono">${t.errorTitle}</p>
+          <a class="btn btn--ghost" href="https://github.com/${username}" target="_blank" rel="noopener">${t.errorCta}</a>
+        </div>`;
+      return;
+    }
+
+    countEl.textContent = t.count(state.repos.length);
+    grid.innerHTML = state.repos.map((r) => repoCard(r, t)).join('');
+  }
+
+  // Re-render on every language change (including the first paint).
+  watchLang((next) => {
+    lang = next;
+    render();
+  });
 
   async function loadRepos() {
     try {
       const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=12`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const repos = await res.json();
-      countEl.textContent = `${repos.length} repos · ${username} · sorted by last push`;
-      grid.innerHTML = repos.map(repoCard).join('');
-    } catch (err) {
-      countEl.textContent = '⚠ failed to reach GitHub API';
-      grid.innerHTML = `
-        <div class="repos__error card">
-          <p class="mono">could not fetch repositories — check network or rate limit.</p>
-          <a class="btn btn--ghost" href="https://github.com/${username}" target="_blank" rel="noopener">Open GitHub instead</a>
-        </div>`;
+      state = { kind: 'ready', repos: (await res.json()) as Repo[] };
+    } catch {
+      state = { kind: 'error' };
     }
+    render();
   }
 
   loadRepos();

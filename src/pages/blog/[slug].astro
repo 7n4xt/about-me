@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 import { SITE } from '../../lib/site';
+import { useTranslations } from '../../lib/translate';
 import '../../styles/prose.css';
 
 export async function getStaticPaths() {
@@ -14,8 +15,11 @@ const { Content } = await render(post);
 const { title, description, pubDate, updatedDate, tags } = post.data;
 const readingTime = Math.max(1, Math.ceil(post.body.length / 800));
 
-function format(date: Date) {
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
+
+function format(date: Date, locale: string) {
+  return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
 }
 ---
 
@@ -23,16 +27,23 @@ function format(date: Date) {
   <article class="article">
     <div class="container article__inner">
       <header class="article__head">
-        <a href="/blog" class="article__back mono">&larr; back to blog</a>
+        <a href="/blog" class="article__back mono" data-en={t('blog.backToBlog')} data-fr={tr.t('blog.backToBlog')}>{t('blog.backToBlog')}</a>
 
         <div class="article__meta mono">
-          <time datetime={pubDate.toISOString()}>{format(pubDate)}</time>
+          <time
+            datetime={pubDate.toISOString()}
+            data-en={format(pubDate, 'en-US')}
+            data-fr={format(pubDate, 'fr-FR')}>{format(pubDate, 'en-US')}</time>
           <span aria-hidden="true">·</span>
-          <span>{readingTime} min read</span>
+          <span>{readingTime} <span data-en={t('blog.readTime')} data-fr={tr.t('blog.readTime')}>{t('blog.readTime')}</span></span>
           {updatedDate && (
             <>
               <span aria-hidden="true">·</span>
-              <span class="article__updated">updated {format(updatedDate)}</span>
+              <span class="article__updated">
+                <span data-en={t('blog.updated')} data-fr={tr.t('blog.updated')}>{t('blog.updated')}</span>
+                {' '}
+                <span data-en={format(updatedDate, 'en-US')} data-fr={format(updatedDate, 'fr-FR')}>{format(updatedDate, 'en-US')}</span>
+              </span>
             </>
           )}
         </div>
@@ -55,16 +66,16 @@ function format(date: Date) {
 
       <footer class="article__foot">
         <div class="article__author card">
-          <img src="/photos/profile.jpg" alt={SITE.author} class="article__avatar" loading="lazy" />
+          <img src="/photos/pfp.jpg" alt={SITE.author} class="article__avatar" loading="lazy" />
           <div>
             <p class="article__author-name mono">{SITE.author} — 7n4xt</p>
             <p class="article__author-bio">
-              Networking &amp; infrastructure student with a cybersecurity background — working
-              toward the CCNA. Write me at <a href={`mailto:${SITE.email}`} class="mono">{SITE.email}</a>.
+              <span data-en={t('blog.authorBio')} data-fr={tr.t('blog.authorBio')}>{t('blog.authorBio')}</span>
+              <a href={`mailto:${SITE.email}`} class="mono">{SITE.email}</a>.
             </p>
           </div>
         </div>
-        <a class="btn btn--ghost article__next" href="/blog">More posts</a>
+        <a class="btn btn--ghost article__next" href="/blog" data-en={t('blog.morePosts')} data-fr={tr.t('blog.morePosts')}>{t('blog.morePosts')}</a>
       </footer>
     </div>
   </article>

@@ -1,22 +1,27 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { useTranslations } from '../lib/translate';
 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
 
 const readingTime = Math.max(1, Math.ceil(post.body.length / 800));
+
+const isoDate = post.data.pubDate.toISOString();
+const dateEn = post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+const dateFr = post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
 
 <article class="post-card card" data-reveal>
   <div class="post-card__meta mono">
-    <time datetime={post.data.pubDate.toISOString()}>
-      {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-    </time>
+    <time datetime={isoDate} data-en={dateEn} data-fr={dateFr}>{dateEn}</time>
     <span aria-hidden="true">·</span>
-    <span>{readingTime} min read</span>
+    <span>{readingTime} <span data-en={t('blog.readTime')} data-fr={tr.t('blog.readTime')}>{t('blog.readTime')}</span></span>
   </div>
 
   <h3 class="post-card__title">

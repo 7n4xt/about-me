@@ -2,28 +2,32 @@
 import Layout from '../../layouts/Layout.astro';
 import BlogCard from '../../components/BlogCard.astro';
 import { getCollection } from 'astro:content';
+import { useTranslations } from '../../lib/translate';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
 ---
 
-<Layout title="Blog" description="Notes, write-ups and deep dives by Abdulmalek Esughi — networking, infrastructure, cybersecurity and homelab experiments.">
+<Layout titleKey="meta.blogTitle" descKey="meta.blogDesc">
   <section class="blog section">
     <div class="container">
       <header class="blog__head" data-reveal>
-        <a href="/" class="blog__back mono">&larr; back home</a>
-        <p class="section__label mono">// blog</p>
-        <h1 class="blog__title">Notes from the lab</h1>
-        <p class="blog__subtitle">
-          Write-ups, experiments and lessons learned while breaking things on purpose.
+        <a href="/" class="blog__back mono" data-en={t('blog.backHome')} data-fr={tr.t('blog.backHome')}>{t('blog.backHome')}</a>
+        <p class="section__label mono" data-en={t('blog.label')} data-fr={tr.t('blog.label')}>{t('blog.label')}</p>
+        <h1 class="blog__title" data-en={t('blog.title')} data-fr={tr.t('blog.title')}>{t('blog.title')}</h1>
+        <p class="blog__subtitle" data-en={t('blog.subtitle')} data-fr={tr.t('blog.subtitle')}>
+          {t('blog.subtitle')}
         </p>
       </header>
 
       <div class="blog__filters mono" data-reveal>
-        <button class="blog__filter is-active" data-filter="all">#all</button>
+        <button class="blog__filter is-active" data-filter="all" data-en={t('blog.all')} data-fr={tr.t('blog.all')}>{t('blog.all')}</button>
         {allTags.map((tag) => (
           <button class="blog__filter" data-filter={tag}>#{tag}</button>
         ))}
@@ -36,7 +40,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
       </div>
 
       {posts.length === 0 && (
-        <p class="blog__empty mono">no posts yet — the lab is still warming up.</p>
+        <p class="blog__empty mono" data-en={t('blog.empty')} data-fr={tr.t('blog.empty')}>{t('blog.empty')}</p>
       )}
     </div>
   </section>

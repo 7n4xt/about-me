@@ -1,40 +1,24 @@
 ---
 import { SITE } from '../lib/site';
+import { useTranslations } from '../lib/translate';
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
 
 const timeline = [
-  {
-    period: 'Now · 3rd Year',
-    role: 'Networking & Infrastructure',
-    org: 'CCNA in progress',
-    desc: 'Deep-diving into network architectures, routing & switching, server administration, and virtualization — preparing for the CCNA while building resilient infrastructure on my Proxmox homelab.',
-    color: 'accent',
-  },
-  {
-    period: '2024 — 2025 · 1st–2nd Years',
-    role: 'Computer Science — Cybersecurity specialisation',
-    org: 'Cybersecurity foundations',
-    desc: 'Focused on offensive and defensive security: Wazuh SIEM, Wireshark analysis, system hardening, and HackTheBox CTF grinding. Those two years gave me the security mindset I now apply to infrastructure.',
-    color: 'success',
-  },
-  {
-    period: '2022 — 2023',
-    role: 'From Libya to Marseille : language & studies',
-    org: 'Integration in France',
-    desc: 'Moved from Libya to Marseille at the end of 2022, then spent 2023 learning French full-time to prepare for computer science studies in a new country.',
-    color: 'warning',
-  },
-];
+  { period: 'about.tl1Period', role: 'about.tl1Role', org: 'about.tl1Org', desc: 'about.tl1Desc', color: 'accent' },
+  { period: 'about.tl2Period', role: 'about.tl2Role', org: 'about.tl2Org', desc: 'about.tl2Desc', color: 'success' },
+  { period: 'about.tl3Period', role: 'about.tl3Role', org: 'about.tl3Org', desc: 'about.tl3Desc', color: 'warning' },
+] as const;
 ---
 
 <section class="about section" id="about">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__label mono">// about</p>
-      <h2 class="section__title">From cyber foundations to network infrastructure</h2>
-      <p class="section__subtitle">
-        I'm a networking &amp; infrastructure student who started in cybersecurity — and
-        that security mindset never left me. I like to understand how the whole stack fits
-        together, from the physical NIC up to the services running on top.
+      <p class="section__label mono" data-en={t('about.label')} data-fr={tr.t('about.label')}>{t('about.label')}</p>
+      <h2 class="section__title" data-en={t('about.title')} data-fr={tr.t('about.title')}>{t('about.title')}</h2>
+      <p class="section__subtitle" data-en={t('about.subtitle')} data-fr={tr.t('about.subtitle')}>
+        {t('about.subtitle')}
       </p>
     </header>
 
@@ -44,34 +28,43 @@ const timeline = [
           <span class="about__lead-label">$ cat /etc/profile.d/me.sh</span>
         </div>
         <p>
-          From <strong>Libya</strong> to <strong>Marseille</strong>, I started with two
-          years of cybersecurity studies, then moved into my true lane: networking and
-          infrastructure. I'm now in my 3rd year, working toward the <strong>CCNA</strong>,
-          and my homelab — <span class="mono">a Proxmox box running Wazuh, Pi-hole, Grafana,
-          and more</span> — is my playground for learning how production systems behave.
+          <span data-en={t('about.lead1a')} data-fr={tr.t('about.lead1a')}>{t('about.lead1a')}</span>
+          <strong>Libya</strong>
+          <span data-en={t('about.lead1b')} data-fr={tr.t('about.lead1b')}>{t('about.lead1b')}</span>
+          <strong>Marseille</strong><span data-en={t('about.lead1c')} data-fr={tr.t('about.lead1c')}>{t('about.lead1c')}</span>
+          <strong>CCNA</strong><span data-en={t('about.lead1d')} data-fr={tr.t('about.lead1d')}>{t('about.lead1d')}</span>
+          <span class="mono" data-en="a Proxmox box running Wazuh, Pi-hole, Grafana, and more" data-fr="une machine Proxmox qui fait tourner Wazuh, Pi-hole, Grafana, et plus">a Proxmox box running Wazuh, Pi-hole, Grafana, and more</span><span data-en={t('about.lead1e')} data-fr={tr.t('about.lead1e')}>{t('about.lead1e')}</span>
         </p>
-        <p>
-          I don't stop at theory. I self-host, I break, I rebuild, and I document everything
-          I learn on this blog. That's how I go from "knows about X" to "deployed X and fixed
-          it when it broke at 2 AM."
-        </p>
+        <p data-en={t('about.lead2')} data-fr={tr.t('about.lead2')}>{t('about.lead2')}</p>
         <div class="about__facts mono">
-          <div><span class="about__fact-k">location</span><span>{SITE.location}</span></div>
-          <div><span class="about__fact-k">origin</span><span>Libya → Europe</span></div>
-          <div><span class="about__fact-k">coffee</span><span>[█████████░] critical</span></div>
-          <div><span class="about__fact-k">status</span><span>learning 24/7</span></div>
+          <div>
+            <span class="about__fact-k" data-en={t('about.factLocation')} data-fr={tr.t('about.factLocation')}>{t('about.factLocation')}</span>
+            <span>{SITE.location}</span>
+          </div>
+          <div>
+            <span class="about__fact-k" data-en={t('about.factOrigin')} data-fr={tr.t('about.factOrigin')}>{t('about.factOrigin')}</span>
+            <span data-en={t('about.factOriginValue')} data-fr={tr.t('about.factOriginValue')}>{t('about.factOriginValue')}</span>
+          </div>
+          <div>
+            <span class="about__fact-k" data-en={t('about.factCoffee')} data-fr={tr.t('about.factCoffee')}>{t('about.factCoffee')}</span>
+            <span data-en={t('about.factCoffeeValue')} data-fr={tr.t('about.factCoffeeValue')}>{t('about.factCoffeeValue')}</span>
+          </div>
+          <div>
+            <span class="about__fact-k" data-en={t('about.factStatus')} data-fr={tr.t('about.factStatus')}>{t('about.factStatus')}</span>
+            <span data-en={t('about.factStatusValue')} data-fr={tr.t('about.factStatusValue')}>{t('about.factStatusValue')}</span>
+          </div>
         </div>
       </div>
 
       <div class="about__timeline" data-reveal>
-        {timeline.map((t, i) => (
+        {timeline.map((item) => (
           <div class="tl-item">
-            <div class={`tl-dot tl-dot--${t.color}`} aria-hidden="true"></div>
+            <div class={`tl-dot tl-dot--${item.color}`} aria-hidden="true"></div>
             <div class="tl-card card">
-              <span class="tl-period mono">{t.period}</span>
-              <h3 class="tl-role">{t.role}</h3>
-              <span class="tl-org mono">{t.org}</span>
-              <p>{t.desc}</p>
+              <span class="tl-period mono" data-en={t(item.period)} data-fr={tr.t(item.period)}>{t(item.period)}</span>
+              <h3 class="tl-role" data-en={t(item.role)} data-fr={tr.t(item.role)}>{t(item.role)}</h3>
+              <span class="tl-org mono" data-en={t(item.org)} data-fr={tr.t(item.org)}>{t(item.org)}</span>
+              <p data-en={t(item.desc)} data-fr={tr.t(item.desc)}>{t(item.desc)}</p>
             </div>
           </div>
         ))}

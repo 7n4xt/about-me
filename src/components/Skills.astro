@@ -1,10 +1,15 @@
 ---
+import { useTranslations } from '../lib/translate';
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
+
 const groups = [
   {
     name: 'networking',
-    title: 'Networking & Infrastructure',
-    note: 'the layers I live in',
-    items: ['Linux administration', 'CCNA (in progress)', 'Proxmox / virtualization', 'Docker & containers', 'Server administration', 'Network troubleshooting', 'Self-hosting'],
+    title: 'skills.groupNetworking',
+    note: 'skills.groupNetworkingNote',
+    items: ['skills.itemLinux', 'skills.itemCcna', 'skills.itemProxmox', 'skills.itemDocker', 'skills.itemServers', 'skills.itemTroubleshooting', 'skills.itemSelfHosting'],
     icon: `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/>
@@ -13,9 +18,9 @@ const groups = [
   },
   {
     name: 'security',
-    title: 'Security',
-    note: 'break it to defend it',
-    items: ['Wazuh SIEM', 'Wireshark / packet analysis', 'System hardening', 'Honeypots', 'CTF (HackTheBox, Root-Me)'],
+    title: 'skills.groupSecurity',
+    note: 'skills.groupSecurityNote',
+    items: ['skills.itemWazuh', 'skills.itemWireshark', 'skills.itemHardening', 'skills.itemHoneypots', 'skills.itemCtf'],
     icon: `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 2.5l7 2.5v6c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V5z"/>
@@ -24,8 +29,8 @@ const groups = [
   },
   {
     name: 'code',
-    title: 'Languages',
-    note: 'tools of the trade',
+    title: 'skills.groupCode',
+    note: 'skills.groupCodeNote',
     items: ['Python', 'Go', 'JavaScript', 'SQL', 'Bash'],
     icon: `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -34,25 +39,27 @@ const groups = [
   },
   {
     name: 'tools',
-    title: 'Tools',
-    note: 'daily drivers',
+    title: 'skills.groupTools',
+    note: 'skills.groupToolsNote',
     items: ['Git', 'Proxmox', 'Grafana', 'Pi-hole', 'Docker', 'VSCode'],
     icon: `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.13.47.5.86 1.03 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/>
       </svg>`,
   },
-];
+] as const;
+
+const label = (key: string) => (/^skills[.A-Z]/.test(key) ? t(key as Parameters<typeof t>[0]) : key);
+const labelFr = (key: string) => (/^skills[.A-Z]/.test(key) ? tr.t(key as Parameters<typeof t>[0]) : key);
 ---
 
 <section class="skills section" id="skills">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__label mono">// skills</p>
-      <h2 class="section__title">A full-stack infrastructure toolkit</h2>
-      <p class="section__subtitle">
-        The tools and technologies I work with daily — focused on the layers that make
-        networks and infrastructure secure and resilient.
+      <p class="section__label mono" data-en={t('skills.label')} data-fr={tr.t('skills.label')}>{t('skills.label')}</p>
+      <h2 class="section__title" data-en={t('skills.title')} data-fr={tr.t('skills.title')}>{t('skills.title')}</h2>
+      <p class="section__subtitle" data-en={t('skills.subtitle')} data-fr={tr.t('skills.subtitle')}>
+        {t('skills.subtitle')}
       </p>
     </header>
 
@@ -62,20 +69,20 @@ const groups = [
           <div class="skill-group__head">
             <span class="skill-group__icon" aria-hidden="true" set:html={g.icon}></span>
             <div>
-              <h3 class="skill-group__title">{g.title}</h3>
-              <span class="skill-group__note mono">{g.note}</span>
+              <h3 class="skill-group__title" data-en={label(g.title)} data-fr={labelFr(g.title)}>{label(g.title)}</h3>
+              <span class="skill-group__note mono" data-en={label(g.note)} data-fr={labelFr(g.note)}>{label(g.note)}</span>
             </div>
           </div>
           <ul class="skill-group__list">
             {g.items.map((item, j) => (
               <li class="skill-group__item" style={`--item-order:${j}`}>
                 <span class="skill-group__index mono">{String(j + 1).padStart(2, '0')}</span>
-                {item}
+                <span data-en={label(item)} data-fr={labelFr(item)}>{label(item)}</span>
               </li>
             ))}
           </ul>
           <div class="skill-group__foot mono">
-            <span>{g.items.length} in this category</span>
+            <span><span class="skill-group__count">{g.items.length}</span> <span data-en={t('skills.foot')} data-fr={tr.t('skills.foot')}>{t('skills.foot')}</span></span>
             <span class="skill-group__foot-dots" aria-hidden="true">▓▓▓░</span>
           </div>
         </div>

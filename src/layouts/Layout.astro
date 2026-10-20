@@ -71,11 +71,12 @@ const switchableTitle = !title;
     </div>
 
     <script>
-      import { initLangSwitch, setLang, currentLang } from '../lib/lang-store';
+      import { initLang, setLang, currentLang } from '../lib/lang-store';
 
-      // First paint: honour the language resolved by the inline head script.
+      // Boot here (not inside a component) so every route gets the switcher,
+      // including routes that render none of the translated components.
       setLang(currentLang(), false);
-      initLangSwitch();
+      initLang();
 
       const revealEls = document.querySelectorAll('[data-reveal]');
       if ('IntersectionObserver' in window) {

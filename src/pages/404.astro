@@ -1,8 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../lib/translate';
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
 ---
 
-<Layout title="404 — page not found">
+<Layout titleKey="meta.404Title">
   <section class="nf section">
     <div class="container">
       <div class="nf__terminal card">
@@ -10,14 +14,14 @@ import Layout from '../layouts/Layout.astro';
           <span>error.log</span>
         </div>
         <pre class="nf__code mono">
-<span class="nf__line">[err] request failed</span>
-<span class="nf__line">[err] 404: page not found</span>
+<span class="nf__line" data-en={t('nf.line1')} data-fr={tr.t('nf.line1')}>{t('nf.line1')}</span>
+<span class="nf__line" data-en={t('nf.line2')} data-fr={tr.t('nf.line2')}>{t('nf.line2')}</span>
 <span class="nf__line">&nbsp;</span>
-<span class="nf__hint">$ suggest an alternative route ...</span>
+<span class="nf__hint" data-en={t('nf.hint')} data-fr={tr.t('nf.hint')}>{t('nf.hint')}</span>
         </pre>
         <div class="nf__actions">
-          <a href="/" class="btn btn--primary">Go home</a>
-          <a href="/blog" class="btn btn--ghost">Read the blog</a>
+          <a href="/" class="btn btn--primary" data-en={t('nf.home')} data-fr={tr.t('nf.home')}>{t('nf.home')}</a>
+          <a href="/blog" class="btn btn--ghost" data-en={t('nf.blog')} data-fr={tr.t('nf.blog')}>{t('nf.blog')}</a>
         </div>
       </div>
     </div>
