@@ -1,33 +1,53 @@
 ---
 import { SITE } from '../lib/site';
+import LangSwitch from './LangSwitch.astro';
+import { useTranslations } from '../lib/translate';
+
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
 
 const links = [
-  { href: '/#home', label: 'Home' },
-  { href: '/#about', label: 'About' },
-  { href: '/#skills', label: 'Skills' },
-  { href: '/#projects', label: 'Projects' },
-  { href: '/#repos', label: 'Repos' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/#contact', label: 'Contact' },
-];
+  { href: '/#home', key: 'nav.home' },
+  { href: '/#about', key: 'nav.about' },
+  { href: '/#skills', key: 'nav.skills' },
+  { href: '/#projects', key: 'nav.projects' },
+  { href: '/#repos', key: 'nav.repos' },
+  { href: '/blog', key: 'nav.blog' },
+  { href: '/#contact', key: 'nav.contact' },
+] as const;
 ---
 
 <header class="nav" id="site-nav">
   <div class="container nav__inner">
-    <a href="/#home" class="nav__brand" aria-label="Home">
+    <a href="/#home" class="nav__brand" data-en-aria-label="Home" data-fr-aria-label="Accueil">
       <span class="nav__brand-prompt">$</span>
       <span class="nav__brand-name">7n4xt</span>
       <span class="nav__brand-cursor" aria-hidden="true">_</span>
     </a>
 
-    <nav class="nav__links" aria-label="Primary">
+    <nav
+      class="nav__links"
+      data-en-aria-label={t('nav.primary')}
+      data-fr-aria-label={tr.t('nav.primary')}
+    >
       {links.map((l) => (
-        <a href={l.href} class="nav__link">{l.label}</a>
+        <a href={l.href} class="nav__link" data-en={t(l.key)} data-fr={tr.t(l.key)}>{t(l.key)}</a>
       ))}
-      <a class="btn btn--primary nav__cta" href={`mailto:${SITE.email}`}>Hire me</a>
+      <LangSwitch />
+      <a
+        class="btn btn--primary nav__cta"
+        href={`mailto:${SITE.email}`}
+        data-en={t('nav.hire')}
+        data-fr={tr.t('nav.hire')}>{t('nav.hire')}</a>
     </nav>
 
-    <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+    <button
+      class="nav__toggle"
+      data-en-aria-label={t('nav.toggleMenu')}
+      data-fr-aria-label={tr.t('nav.toggleMenu')}
+      aria-expanded="false"
+      aria-controls="site-nav"
+    >
       <span></span><span></span><span></span>
     </button>
   </div>

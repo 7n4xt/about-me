@@ -1,26 +1,55 @@
 ---
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import { useTranslations } from '../lib/translate';
 import '../styles/global.css';
 
 interface Props {
+  /** Plain title; blog posts pass their own (already language-specific) title. */
   title?: string;
   description?: string;
+  /** i18n key for the page title, used by the runtime language switch. */
+  titleKey?: 'meta.homeTitle' | 'meta.blogTitle' | 'meta.404Title';
+  /** i18n key for the description meta tag. */
+  descKey?: 'meta.homeDesc' | 'meta.blogDesc';
 }
 
-const { title, description } = Astro.props;
-const pageTitle = title ? `${title} · ${'7n4xt'}` : '7n4xt — Abdulmalek Esughi | Networking & Infrastructure Student';
-const pageDesc = description ?? 'Portfolio of Abdulmalek Esughi (7n4xt) — networking & infrastructure student based in Marseille, France. CCNA in progress, cybersecurity background.';
+const { title, description, titleKey = 'meta.homeTitle', descKey = 'meta.homeDesc' } = Astro.props;
+const { t } = useTranslations('en');
+
+const pageTitle = title ? `${title} · 7n4xt` : t(titleKey);
+const pageDesc = description ?? t(descKey);
+
+// Only switch the document title at runtime for pages that are fully translated.
+const switchableTitle = !title;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
-    <meta name="description" content={pageDesc} />
+    <script is:inline>
+      // Apply the saved language before first paint to avoid an English flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('lang');
+          var fromUrl = new URLSearchParams(location.search).get('lang');
+          var lang = fromUrl === 'fr' || fromUrl === 'en' ? fromUrl : saved === 'fr' ? 'fr' : 'en';
+          if (lang === 'fr') {
+            document.documentElement.dataset.lang = 'fr';
+            document.documentElement.lang = 'fr';
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <title
+      data-i18n-title={switchableTitle ? titleKey : undefined}
+      data-en-title={switchableTitle ? t(titleKey) : undefined}
+      data-fr-title={switchableTitle ? useTranslations('fr').t(titleKey) : undefined}
+    >{pageTitle}</title>
+    <meta name="description" content={pageDesc} data-en-desc={t(descKey)} data-fr-desc={useTranslations('fr').t(descKey)} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
@@ -42,6 +71,12 @@ const pageDesc = description ?? 'Portfolio of Abdulmalek Esughi (7n4xt) — netw
     </div>
 
     <script>
+      import { initLangSwitch, setLang, currentLang } from '../lib/lang-store';
+
+      // First paint: honour the language resolved by the inline head script.
+      setLang(currentLang(), false);
+      initLangSwitch();
+
       const revealEls = document.querySelectorAll('[data-reveal]');
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(

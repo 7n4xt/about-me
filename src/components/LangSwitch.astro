@@ -1,0 +1,67 @@
+---
+/**
+ * EN / FR segmented toggle.
+ * Language is applied by the boot script in Layout.astro; this component only
+ * renders the buttons, which the store binds on load.
+ */
+---
+
+<div class="lang" id="lang-switch" role="group" aria-label="Language / Langue">
+  <button type="button" class="lang__btn" data-lang-btn="en" aria-pressed="false" aria-label="English">
+    EN
+  </button>
+  <span class="lang__sep" aria-hidden="true">/</span>
+  <button type="button" class="lang__btn" data-lang-btn="fr" aria-pressed="false" aria-label="Français">
+    FR
+  </button>
+</div>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1;
+    padding: 0.28rem 0.5rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    background: rgba(16, 19, 26, 0.55);
+    transition: border-color var(--transition), background var(--transition);
+  }
+
+  .lang:hover {
+    border-color: var(--border-strong);
+  }
+
+  .lang__btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    color: var(--text-muted);
+    padding: 0.2rem 0.28rem;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background var(--transition);
+  }
+
+  .lang__btn:hover {
+    color: var(--text-primary);
+  }
+
+  .lang__btn.is-active {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .lang__btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .lang__sep {
+    color: var(--nord3);
+    font-size: 0.72rem;
+  }
+</style>
