@@ -118,7 +118,7 @@ export const en = {
   'projects.label': '// projects',
   'projects.title': 'Featured projects',
   'projects.subtitle':
-    "A selection of what I've built and deployed — from security labs to full web platforms. The rest are pulled live from GitHub below.",
+     'Projects across infrastructure, cybersecurity, and web development. Explore the code to see how they work.',
   'projects.viewSource': 'view source →',
   'projects.pNostroguard':
     'Live SaaS cybersecurity training platform — interactive security exercises delivered through a web platform.',
@@ -301,7 +301,7 @@ export const fr: Dict = {
   'projects.label': '// projets',
   'projects.title': 'Projets phares',
   'projects.subtitle':
-    'Une sélection de ce que j’ai construit et déployé — des labs de sécurité aux plateformes web complètes. Le reste est récupéré en direct depuis GitHub ci-dessous.',
+    'Des projets en infrastructure, cybersécurité et développement web. Explorez le code pour comprendre leur fonctionnement.',
   'projects.viewSource': 'voir le code →',
   'projects.pNostroguard':
     'Plateforme SaaS de formation en cybersécurité — exercices de sécurité interactifs via une interface web.',

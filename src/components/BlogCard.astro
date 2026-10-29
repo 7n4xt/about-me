@@ -46,12 +46,9 @@ const dateFr = post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', 
     height: 100%;
   }
 
-  .post-card:hover {
-    transform: translateY(-4px);
-  }
-
   .post-card__meta {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
     color: var(--text-muted);
     font-size: 0.78rem;

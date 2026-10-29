@@ -1,5 +1,6 @@
 ---
 import { useTranslations } from '../lib/translate';
+import SkillIcon from './SkillIcon.astro';
 
 const { t } = useTranslations('en');
 const tr = useTranslations('fr');
@@ -64,27 +65,29 @@ const labelFr = (key: string) => (/^skills[.A-Z]/.test(key) ? tr.t(key as Parame
     </header>
 
     <div class="skills__grid">
-      {groups.map((g, i) => (
-        <div class="skill-group card" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+      {groups.map((g) => (
+        <div class={`skill-group skill-group--${g.name}`}>
           <div class="skill-group__head">
             <span class="skill-group__icon" aria-hidden="true" set:html={g.icon}></span>
             <div>
               <h3 class="skill-group__title" data-en={label(g.title)} data-fr={labelFr(g.title)}>{label(g.title)}</h3>
-              <span class="skill-group__note mono" data-en={label(g.note)} data-fr={labelFr(g.note)}>{label(g.note)}</span>
+              <span class="skill-group__note" data-en={label(g.note)} data-fr={labelFr(g.note)}>{label(g.note)}</span>
             </div>
           </div>
+          {g.name === 'networking' && <div class="skill-stack" aria-hidden="true">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="7" rx="2"/><rect x="4" y="14" width="16" height="7" rx="2"/><path d="M7 6.5h2m-2 11h2M12 10v4"/></svg>Proxmox</span>
+            <i></i><span>Linux</span><i></i><span>Services</span>
+          </div>}
           <ul class="skill-group__list">
-            {g.items.map((item, j) => (
-              <li class="skill-group__item" style={`--item-order:${j}`}>
-                <span class="skill-group__index mono">{String(j + 1).padStart(2, '0')}</span>
+            {g.items.map((item) => (
+              <li class="skill-group__item">
+                <SkillIcon name={item} />
                 <span data-en={label(item)} data-fr={labelFr(item)}>{label(item)}</span>
               </li>
             ))}
           </ul>
-          <div class="skill-group__foot mono">
-            <span><span class="skill-group__count">{g.items.length}</span> <span data-en={t('skills.foot')} data-fr={tr.t('skills.foot')}>{t('skills.foot')}</span></span>
-            <span class="skill-group__foot-dots" aria-hidden="true">▓▓▓░</span>
-          </div>
+          {g.name === 'networking' && <a class="skill-group__proof" href="/blog/building-a-homelab"><span data-en="Inside my homelab" data-fr="Dans mon homelab">Inside my homelab</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>}
+          {g.name === 'security' && <a class="skill-group__proof" href="/blog/wazuh-honeypot-siem"><span data-en="My Wazuh & honeypot lab" data-fr="Mon lab Wazuh et honeypot">My Wazuh & honeypot lab</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>}
         </div>
       ))}
     </div>
@@ -99,120 +102,106 @@ const labelFr = (key: string) => (/^skills[.A-Z]/.test(key) ? tr.t(key as Parame
 
   .skills__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 1.5rem;
   }
 
   .skill-group {
-    padding: 1.6rem;
+    --group-accent: var(--nord8);
+    grid-column: span 7;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
     position: relative;
     overflow: hidden;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
   }
 
-  .skill-group::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent 70%);
-    opacity: 0;
-    transition: opacity var(--transition);
-  }
-
-  .skill-group:hover::before {
-    opacity: 1;
-  }
-
-  .skill-group:hover {
-    transform: translateY(-4px);
-  }
+  .skill-group--networking { background: radial-gradient(ellipse at top right, rgba(136,192,208,0.09), transparent 65%), var(--bg-raised); }
+  .skill-group--security { grid-column: span 5; --group-accent: var(--nord14); }
+  .skill-group--code { grid-column: span 5; --group-accent: var(--nord13); }
+  .skill-group--tools { --group-accent: var(--nord15); }
 
   .skill-group__head {
     display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    margin-bottom: 1.2rem;
-    padding-bottom: 0.9rem;
-    border-bottom: 1px solid var(--border-subtle);
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
   }
 
   .skill-group__icon {
-    color: var(--accent);
-    width: 2.3rem;
-    height: 2.3rem;
+    color: var(--group-accent);
+    width: 3rem;
+    height: 3rem;
     flex-shrink: 0;
     display: grid;
     place-items: center;
-    background: rgba(136, 192, 208, 0.08);
+    background: var(--bg-base);
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
+    border-radius: 16px;
   }
 
-  .skill-group__icon svg {
-    width: 1.3rem;
-    height: 1.3rem;
+  .skill-group__icon :global(svg) {
+    width: 1.6rem;
+    height: 1.6rem;
   }
 
   .skill-group__title {
-    font-size: 1.15rem;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
     line-height: 1.2;
   }
 
   .skill-group__note {
     color: var(--text-muted);
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    display: block;
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
   }
 
   .skill-group__list {
     list-style: none;
     display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
   }
 
   .skill-group__item {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    color: var(--text-secondary);
-    font-size: 0.98rem;
-    transition: color var(--transition), padding var(--transition);
-  }
-
-  .skill-group__item:hover {
+    gap: 0.55rem;
     color: var(--text-primary);
-    padding-left: 0.25rem;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.85rem;
+    line-height: 1.5;
+    border-radius: var(--radius-sm);
+    background: rgba(216,222,233,0.045);
+    border: 1px solid var(--border-subtle);
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
-  .skill-group__index {
-    color: var(--nord3);
-    font-size: 0.78rem;
-    min-width: 2ch;
-  }
-
-  .skill-group__foot {
-    margin-top: 1.3rem;
-    padding-top: 0.9rem;
-    border-top: 1px dashed var(--border-subtle);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--text-muted);
-    font-size: 0.72rem;
-  }
-
-  .skill-group__foot-dots {
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
+  .skill-group__proof { display: inline-flex; align-items: center; gap: 0.75rem; min-height: 44px; padding-top: 0.75rem; margin-top: auto; color: var(--group-accent); font-size: 0.9rem; }
+  .skill-group__proof svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .skill-group__proof:hover { color: var(--text-primary); }
+  .skill-stack { display: flex; align-items: center; width: 100%; margin-bottom: 1.75rem; color: var(--group-accent); font: 0.8rem var(--font-mono); }
+  .skill-stack > span { display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--bg-base); }
+  .skill-stack svg { width: 20px; height: 20px; }
+  .skill-stack i { height: 1px; flex: 1; min-width: 0.5rem; background: var(--border-strong); }
 
   @media (max-width: 820px) {
     .skills__grid {
       grid-template-columns: 1fr;
     }
+    .skill-group { grid-column: auto; }
+  }
+  @media (max-width: 400px) {
+    .skill-stack { font-size: 0.7rem; }
+    .skill-stack > span { padding: 0.5rem; }
+    .skill-stack svg { display: none; }
   }
 </style>

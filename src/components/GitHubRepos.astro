@@ -22,7 +22,7 @@ const tr = useTranslations('fr');
     </div>
 
     <div class="repos__grid" id="repos-grid" data-reveal>
-      {Array.from({ length: 6 }).map(() => (
+      {Array.from({ length: 3 }).map(() => (
         <div class="repo card repo--skeleton">
           <div class="skeleton skeleton--title"></div>
           <div class="skeleton skeleton--line"></div>
@@ -134,7 +134,7 @@ const tr = useTranslations('fr');
 
   async function loadRepos() {
     try {
-      const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=12`);
+      const res = await fetch(`https://api.github.com/users/${username}/repos?sort=pushed&per_page=3`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       state = { kind: 'ready', repos: (await res.json()) as Repo[] };
     } catch {

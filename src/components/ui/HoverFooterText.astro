@@ -1,0 +1,53 @@
+---
+interface Props { text?: string; }
+const { text = '7n4xt' } = Astro.props;
+---
+
+<div class="hover-footer-text" aria-hidden="true">
+  <svg data-footer-text viewBox="0 0 300 100" fill="none">
+    <defs>
+      <linearGradient id="footer-text-color" x1="0" y1="0" x2="300" y2="100" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#ebcb8b" />
+        <stop offset="25%" stop-color="#bf616a" />
+        <stop offset="50%" stop-color="#a3be8c" />
+        <stop offset="75%" stop-color="#88c0d0" />
+        <stop offset="100%" stop-color="#b48ead" />
+      </linearGradient>
+      <radialGradient id="footer-text-reveal" cx="150" cy="50" r="85" gradientUnits="userSpaceOnUse">
+        <stop stop-color="white" />
+        <stop offset="100%" stop-color="black" />
+      </radialGradient>
+      <mask id="footer-text-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="100">
+        <rect width="300" height="100" fill="url(#footer-text-reveal)" />
+      </mask>
+    </defs>
+    <text class="hover-footer-text__outline" x="150" y="52" text-anchor="middle" dominant-baseline="middle">{text}</text>
+    <text class="hover-footer-text__color" x="150" y="52" text-anchor="middle" dominant-baseline="middle" stroke="url(#footer-text-color)" mask="url(#footer-text-mask)">{text}</text>
+  </svg>
+</div>
+
+<script>
+  const svg = document.querySelector<SVGSVGElement>('[data-footer-text]');
+  const reveal = svg?.querySelector<SVGRadialGradientElement>('#footer-text-reveal');
+  if (svg && reveal) {
+    svg.addEventListener('pointermove', (event) => {
+      if (event.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const matrix = svg.getScreenCTM();
+      if (!matrix) return;
+      const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse());
+      reveal.setAttribute('cx', String(point.x));
+      reveal.setAttribute('cy', String(point.y));
+    });
+  }
+</script>
+
+<style>
+  .hover-footer-text { width: min(100%, 1000px); margin: 0 auto; user-select: none; }
+  svg { display: block; width: 100%; height: auto; }
+  text { font-family: var(--font-sans); font-size: 76px; font-weight: 800; letter-spacing: -4px; stroke-width: 0.4; }
+  .hover-footer-text__outline { stroke: var(--accent); opacity: 0.35; stroke-dasharray: 1000; stroke-dashoffset: 0; animation: footer-draw 4s ease-in-out both; }
+  .hover-footer-text__color { opacity: 0.45; transition: opacity 220ms ease; stroke-width: 0.65; }
+  svg:hover .hover-footer-text__color { opacity: 1; }
+  @keyframes footer-draw { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .hover-footer-text__outline { animation: none; } .hover-footer-text__color { transition: none; } }
+</style>

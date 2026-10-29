@@ -1,0 +1,70 @@
+---
+import { useTranslations } from '../lib/translate';
+const { t } = useTranslations('en');
+const tr = useTranslations('fr');
+---
+
+<div class="hero__terminal card">
+  <div class="hero__terminal-bar">
+    <span class="dot dot--r" aria-hidden="true"></span>
+    <span class="dot dot--y" aria-hidden="true"></span>
+    <span class="dot dot--g" aria-hidden="true"></span>
+    <span class="hero__terminal-title mono">7n4xt@homelab: ~</span>
+  </div>
+  <div class="hero__terminal-body mono">
+    <div class="t-line t-prompt-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> fastfetch</div>
+    <div class="t-fastfetch">
+      <pre class="t-ascii" aria-hidden="true"><span class="c1">             .',;::::;,'.
+         .';:cccccccccccc:;,.
+      .;cccccccccccccccccccccc;.
+    .:cccccccccccccccccccccccccc:.
+  .;ccccccccccccc;</span><span class="c2">.:dddl:.</span><span class="c1">;ccccccc;.
+ .:ccccccccccccc;</span><span class="c2">OWMKOOXMWd</span><span class="c1">;ccccccc:.
+.:ccccccccccccc;</span><span class="c2">KMMc</span><span class="c1">;cc;</span><span class="c2">xMMc</span><span class="c1">;ccccccc:.
+,cccccccccccccc;</span><span class="c2">MMM.</span><span class="c1">;cc;</span><span class="c2">;WW:</span><span class="c1">;cccccccc,
+:cccccccccccccc;</span><span class="c2">MMM.</span><span class="c1">;cccccccccccccccc:
+:ccccccc;</span><span class="c2">oxOOOo</span><span class="c1">;</span><span class="c2">MMM000k.</span><span class="c1">;cccccccccccc:
+cccccc;</span><span class="c2">0MMKxdd:</span><span class="c1">;</span><span class="c2">MMMkddc.</span><span class="c1">;cccccccccccc;
+ccccc;</span><span class="c2">XMO'</span><span class="c1">;cccc;</span><span class="c2">MMM.</span><span class="c1">;cccccccccccccccc'
+ccccc;</span><span class="c2">MMo</span><span class="c1">;ccccc;</span><span class="c2">MMW.</span><span class="c1">;ccccccccccccccc;
+ccccc;</span><span class="c2">0MNc.</span><span class="c1">ccc</span><span class="c2">.xMMd</span><span class="c1">;ccccccccccccccc;
+cccccc;</span><span class="c2">dNMWXXXWM0:</span><span class="c1">;cccccccccccccc:,
+cccccccc;</span><span class="c2">.:odl:.</span><span class="c1">;cccccccccccccc:,.
+ccccccccccccccccccccccccccccc:'.
+:ccccccccccccccccccccccc:;,..
+ ':cccccccccccccccc::;,.</span></pre>
+      <div class="t-info">
+        <div class="t-line t-dim"> OS → Fedora / Debian · Proxmox</div>
+        <div class="t-line t-dim"> WM → Hyprland (Wayland)</div>
+        <div class="t-line t-dim"> Stack → Wazuh · Pi-hole · Grafana</div>
+        <div class="t-line t-dim"> CCNA → <span data-en="in progress" data-fr="en cours">in progress</span></div>
+        <div class="t-line t-dim"> CTF → HackTheBox · Root-Me</div>
+        <div class="t-line t-dim"> Focus → <span data-en="Networking · Infra" data-fr="Réseaux · Infra">Networking · Infra</span></div>
+        <div class="t-line t-ok"> Status → [█████████░] <span data-en={t('hero.status')} data-fr={tr.t('hero.status')}>{t('hero.status')}</span></div>
+      </div>
+    </div>
+    <div class="t-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> <span class="t-cursor" aria-hidden="true">▊</span></div>
+  </div>
+</div>
+
+<style>
+  .hero__terminal { min-width: 0; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.45); }
+  .hero__terminal-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.1rem; border-bottom: 1px solid var(--border-subtle); background: rgba(16,19,26,0.5); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot--r { background: var(--nord11); } .dot--y { background: var(--nord13); } .dot--g { background: var(--nord14); }
+  .hero__terminal-title { margin-left: 0.6rem; color: var(--text-muted); font-size: 0.78rem; }
+  .hero__terminal-body { padding: 1.3rem 1.4rem; font-size: 0.88rem; line-height: 2; }
+  .t-line { overflow-wrap: anywhere; }
+  .t-prompt-line { margin-bottom: 0.5rem; }
+  .t-fastfetch { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.4rem; }
+  .t-ascii { margin: 0; padding: 0; line-height: 1.35; font-size: 0.62rem; color: var(--nord8); flex-shrink: 0; user-select: none; }
+  .t-ascii .c2 { color: var(--nord6); }
+  .t-info { display: flex; flex-direction: column; gap: 0.15rem; padding-top: 0.15rem; min-width: 0; }
+  .t-info .t-line { font-size: 0.8rem; }
+  .t-prompt { color: var(--nord14); } .t-dir, .t-cursor { color: var(--accent); }
+  .t-dim { color: var(--text-muted); } .t-ok { color: var(--success); }
+  .t-cursor { animation: blink 1s steps(2,start) infinite; }
+  @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+  @media (max-width: 900px) { .hero__terminal { max-width: 560px; width: 100%; } }
+  @media (max-width: 400px) { .hero__terminal-body { padding: 1rem; } .t-ascii { font-size: 0.5rem; } }
+</style>

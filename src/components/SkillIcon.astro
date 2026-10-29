@@ -1,0 +1,41 @@
+---
+interface Props { name: string; }
+const { name } = Astro.props;
+const devicon = 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons';
+const simple = 'https://cdn.jsdelivr.net/npm/simple-icons@v15/icons';
+const lucide = 'https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/icons';
+const icons: Record<string, string> = {
+  Python: `${devicon}/python/python-original.svg`,
+  Go: `${devicon}/go/go-original.svg`,
+  JavaScript: `${devicon}/javascript/javascript-original.svg`,
+  SQL: `${lucide}/database.svg`,
+  Bash: `${devicon}/bash/bash-original.svg`,
+  Git: `${devicon}/git/git-original.svg`,
+  Proxmox: `${simple}/proxmox.svg`,
+  Grafana: `${devicon}/grafana/grafana-original.svg`,
+  'Pi-hole': `${simple}/pihole.svg`,
+  Docker: `${devicon}/docker/docker-original.svg`,
+  VSCode: `${devicon}/vscode/vscode-original.svg`,
+  'skills.itemLinux': `${devicon}/linux/linux-original.svg`,
+  'skills.itemCcna': `${simple}/cisco.svg`,
+  'skills.itemProxmox': `${simple}/proxmox.svg`,
+  'skills.itemDocker': `${devicon}/docker/docker-original.svg`,
+  'skills.itemServers': `${lucide}/server.svg`,
+  'skills.itemTroubleshooting': `${lucide}/network.svg`,
+  'skills.itemSelfHosting': `${lucide}/house.svg`,
+  'skills.itemWazuh': `${lucide}/shield-check.svg`,
+  'skills.itemWireshark': `${simple}/wireshark.svg`,
+  'skills.itemHardening': `${lucide}/lock-keyhole.svg`,
+  'skills.itemHoneypots': `${lucide}/bug.svg`,
+  'skills.itemCtf': `${simple}/hackthebox.svg`,
+};
+const src = icons[name];
+const monochrome = src?.startsWith(simple) || src?.startsWith(lucide) || name === 'Bash';
+---
+
+{src && <img class:list={['skill-icon', { 'skill-icon--mono': monochrome }]} src={src} alt="" aria-hidden="true" width="20" height="20" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'" />}
+
+<style>
+  .skill-icon { display: block; width: 20px; height: 20px; flex-shrink: 0; object-fit: contain; }
+  .skill-icon--mono { filter: brightness(0) invert(0.9); }
+</style>
