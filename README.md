@@ -66,6 +66,62 @@ sudo cp -r dist /var/www/about-me/dist
 sudo nginx -s reload
 ```
 
+### Automatic deployment inside a Debian LXC
+
+The setup script installs a systemd timer, **not a webhook**. It checks the public
+`7n4xt/about-me` repository's `main` branch every minute and builds inside the LXC.
+Cloudflare Tunnel and nginx configuration are left unchanged. No incoming ports,
+GitHub token, self-hosted runner, package installations, or upgrades are needed.
+
+Prerequisites: systemd, Git, Node.js, npm, and `flock` available system-wide in
+`/usr/local/bin`, `/usr/bin`, or `/bin`. Protect `main`: builds execute repository
+code as a restricted account, which can replace this website but cannot write
+outside its state and site directories through the systemd service.
+
+After these scripts are available in your checkout, run **inside the LXC**:
+
+```bash
+cd /root/about-me
+bash scripts/setup-auto-deploy.sh
+```
+
+Run setup as root. It creates the `about-me-deploy` account, a separate checkout
+under `/var/lib/about-me-deploy`, and root-owned service/script files. It grants
+that account group write access to `/var/www/about-me`; it does not change the
+current `dist` content. The initial checkout commit is recorded as the baseline:
+**setup does not build or publish it**. The next changed `main` commit triggers
+`npm ci` and `npm run build`. Re-running setup keeps the existing baseline.
+
+Successful output is copied to `/var/www/about-me/.releases/<commit>.<suffix>`.
+On the first successful deployment, the existing `dist/` directory is retained
+as `.releases/previous-...` and `dist` becomes a symlink. This first conversion has
+a brief rename gap; later releases switch the symlink atomically. nginx must
+allow symlinks (the default), and its document root stays `/var/www/about-me/dist`.
+No nginx reload is needed. Failed builds leave the live site unchanged and are
+retried on the next timer run. Previous releases are retained, so monitor disk
+usage. Builds time out after 15 minutes; concurrent runs cannot overlap.
+
+```bash
+systemctl status about-me-deploy.timer
+journalctl -u about-me-deploy.service -n 60 --no-pager
+# Check immediately; unchanged commits still skip building:
+systemctl start about-me-deploy.service
+# Stop automatic deployment:
+systemctl disable --now about-me-deploy.timer
+# Also stop an already running build if necessary:
+systemctl stop about-me-deploy.service
+```
+
+Changes to the repository's deployment scripts do not automatically update the
+root-owned installed script. Review changes, then rerun setup explicitly.
+
+Local deployment logic tests (Python 3 + Git; no real npm build or server changes):
+
+```bash
+bash -n scripts/setup-auto-deploy.sh scripts/deploy.sh
+python3 scripts/test-deploy.py
+```
+
 ### Optional: dockerized
 
 ```bash
