@@ -158,3 +158,4 @@ Your content here...
 - `src/lib/site.ts` — name, links, email, socials
 - `src/styles/global.css` — Nord design tokens and global styles
 - `src/content/blog/` — your posts
+- 
