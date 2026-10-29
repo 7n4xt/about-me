@@ -43,6 +43,11 @@ fi
 if [[ ! -d "$SITE_ROOT" ]]; then install -d -m 0755 "$SITE_ROOT"; fi
 chgrp "$USER_NAME" "$SITE_ROOT"
 chmod g+wx "$SITE_ROOT"
+if [[ -d "$SITE_ROOT/dist" && ! -L "$SITE_ROOT/dist" ]]; then
+  # Moving a directory to another parent requires write access to update its '..' entry.
+  chgrp "$USER_NAME" "$SITE_ROOT/dist"
+  chmod g+wx "$SITE_ROOT/dist"
+fi
 install -d -o "$USER_NAME" -g "$USER_NAME" -m 0755 "$SITE_ROOT/.releases"
 install -d -m 0755 /usr/local/libexec
 install -o root -g root -m 0755 "$SCRIPT_DIR/deploy.sh" /usr/local/libexec/about-me-deploy

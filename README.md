@@ -87,8 +87,9 @@ bash scripts/setup-auto-deploy.sh
 
 Run setup as root. It creates the `about-me-deploy` account, a separate checkout
 under `/var/lib/about-me-deploy`, and root-owned service/script files. It grants
-that account group write access to `/var/www/about-me`; it does not change the
-current `dist` content. The initial checkout commit is recorded as the baseline:
+that account group write access to `/var/www/about-me` and the existing `dist`
+directory itself (not its contents), allowing the initial backup move. It does not
+change the current `dist` content. The initial checkout commit is recorded as the baseline:
 **setup does not build or publish it**. The next changed `main` commit triggers
 `npm ci` and `npm run build`. Re-running setup keeps the existing baseline.
 
