@@ -8,7 +8,8 @@ SITE_ROOT=/var/www/about-me
 REPO_URL=https://github.com/7n4xt/about-me.git
 BRANCH=main
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-SAFE_PATH=/usr/local/bin:/usr/bin:/bin
+SAFE_PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH="$SAFE_PATH"
 
 for command in git node npm flock runuser useradd install systemctl; do
   PATH="$SAFE_PATH" command -v "$command" >/dev/null || { echo "Missing prerequisite: $command. Install it separately; setup does not install packages." >&2; exit 1; }

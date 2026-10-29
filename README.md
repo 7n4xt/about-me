@@ -74,7 +74,7 @@ Cloudflare Tunnel and nginx configuration are left unchanged. No incoming ports,
 GitHub token, self-hosted runner, package installations, or upgrades are needed.
 
 Prerequisites: systemd, Git, Node.js, npm, and `flock` available system-wide in
-`/usr/local/bin`, `/usr/bin`, or `/bin`. Protect `main`: builds execute repository
+standard system binary directories, including `/usr/sbin`. Protect `main`: builds execute repository
 code as a restricted account, which can replace this website but cannot write
 outside its state and site directories through the systemd service.
 
