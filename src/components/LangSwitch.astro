@@ -6,17 +6,21 @@
  */
 ---
 
-<div class="lang" id="lang-switch" role="group" aria-label="Language / Langue">
-  <button type="button" class="lang__btn" data-lang-btn="en" aria-pressed="false" aria-label="English">
+<div class="lang" id="lang-switch" role="group" aria-label="Language / Langue" hidden>
+  <button type="button" class="lang__btn" data-lang-btn="en" aria-pressed="false" aria-label="EN — English">
     EN
   </button>
   <span class="lang__sep" aria-hidden="true">/</span>
-  <button type="button" class="lang__btn" data-lang-btn="fr" aria-pressed="false" aria-label="Français">
+  <button type="button" class="lang__btn" data-lang-btn="fr" aria-pressed="false" aria-label="FR — Français">
     FR
   </button>
 </div>
 
 <style>
+  .lang[hidden] {
+    display: none;
+  }
+
   .lang {
     display: inline-flex;
     align-items: center;

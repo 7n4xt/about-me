@@ -19,23 +19,26 @@ const tr = useTranslations('fr');
     <div class="container">
       <header class="blog__head" data-reveal>
         <a href="/" class="blog__back mono" data-en={t('blog.backHome')} data-fr={tr.t('blog.backHome')}>{t('blog.backHome')}</a>
-        <p class="section__label mono" data-en={t('blog.label')} data-fr={tr.t('blog.label')}>{t('blog.label')}</p>
         <h1 class="blog__title" data-en={t('blog.title')} data-fr={tr.t('blog.title')}>{t('blog.title')}</h1>
         <p class="blog__subtitle" data-en={t('blog.subtitle')} data-fr={tr.t('blog.subtitle')}>
           {t('blog.subtitle')}
         </p>
       </header>
 
-      <div class="blog__filters mono" data-reveal>
-        <button class="blog__filter is-active" aria-pressed="true" data-filter="all" data-en={t('blog.all')} data-fr={tr.t('blog.all')}>{t('blog.all')}</button>
-        {allTags.map((tag) => (
-          <button class="blog__filter" aria-pressed="false" data-filter={tag}>#{tag}</button>
-        ))}
+      <div class="blog__tools" id="blog-tools" hidden>
+        <div class="blog__topic">
+          <label for="blog-topic" data-en={t('blog.topic')} data-fr={tr.t('blog.topic')}>{t('blog.topic')}</label>
+          <select id="blog-topic" aria-controls="blog-grid">
+            <option value="" data-en={t('blog.allTopics')} data-fr={tr.t('blog.allTopics')}>{t('blog.allTopics')}</option>
+            {allTags.map((tag) => <option value={tag}>{tag}</option>)}
+          </select>
+        </div>
+        <p class="blog__count" id="blog-count" role="status" aria-atomic="true"></p>
       </div>
 
       <div class="blog__grid" id="blog-grid" data-reveal>
         {posts.map((post) => (
-          <BlogCard post={post} />
+          <BlogCard post={post} heading="h2" />
         ))}
       </div>
 
@@ -47,26 +50,24 @@ const tr = useTranslations('fr');
 </Layout>
 
 <script>
-  const filters = document.querySelectorAll('.blog__filter');
-  const grid = document.getElementById('blog-grid');
-  const cards = grid ? Array.from(grid.querySelectorAll('.post-card')) : [];
+  const topic = document.querySelector<HTMLSelectElement>('#blog-topic')!;
+  const cards = [...document.querySelectorAll<HTMLElement>('#blog-grid .post-card')];
+  const count = document.getElementById('blog-count')!;
 
-  filters.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filters.forEach((b) => { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-pressed', 'true');
-      const tag = btn.dataset.filter;
+  function filterPosts() {
+    let visible = 0;
+    for (const card of cards) {
+      const tags: string[] = JSON.parse(card.dataset.tags ?? '[]');
+      card.hidden = topic.value !== '' && !tags.includes(topic.value);
+      if (!card.hidden) visible++;
+    }
+    // Both interface languages use “article” / “articles”.
+    count.textContent = `${visible} ${visible === 1 ? 'article' : 'articles'}`;
+  }
 
-      cards.forEach((card) => {
-        const tags = Array.from(card.querySelectorAll('.post-card__tag')).map((t) =>
-          t.textContent.replace('#', '')
-        );
-        const show = tag === 'all' || tags.includes(tag);
-        card.style.display = show ? '' : 'none';
-      });
-    });
-  });
+  topic.addEventListener('change', filterPosts);
+  filterPosts();
+  document.getElementById('blog-tools')!.hidden = false;
 </script>
 
 <style>
@@ -86,7 +87,7 @@ const tr = useTranslations('fr');
   }
 
   .blog__title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
     margin-bottom: 0.75rem;
   }
 
@@ -96,50 +97,57 @@ const tr = useTranslations('fr');
     max-width: 60ch;
   }
 
-  .blog__filters {
+  .blog__tools {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-bottom: 2.5rem;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    margin-bottom: 2rem;
+    border-block: 1px solid var(--border-subtle);
   }
 
-  .blog__filter {
-    min-height: 44px;
-    font-family: inherit;
-    font-size: 0.82rem;
+  .blog__tools[hidden] {
+    display: none;
+  }
+
+  .blog__topic {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+
+  label,
+  .blog__count {
     color: var(--text-secondary);
-    background: rgba(16, 19, 26, 0.5);
-    border: 1px solid var(--border-subtle);
-    padding: 0.4rem 0.9rem;
-    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+  }
+
+  select {
+    min-height: 44px;
+    max-width: 100%;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-strong);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: all var(--transition);
-  }
-
-  .blog__filter:hover {
-    color: var(--accent);
-    border-color: var(--border-strong);
-  }
-
-  .blog__filter.is-active {
-    color: var(--bg-deep);
-    background: var(--accent);
-    border-color: transparent;
   }
 
   .blog__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem;
   }
 
   .blog__empty {
     color: var(--text-muted);
     padding: 3rem 0;
-  }
-
-  @media (max-width: 980px) {
-    .blog__grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 620px) {

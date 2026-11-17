@@ -34,6 +34,21 @@ npm run build      # outputs static site to dist/
 npm run preview    # preview the production build
 ```
 
+## UI checks
+
+```bash
+npx playwright install chromium  # once per machine
+npm run build
+npm run test:ui
+```
+
+Checks cover mobile keyboard navigation, no-JavaScript access, topic filtering,
+and expandable article topics. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to use an
+existing Chromium binary.
+
+Blog previews show two topics to reduce clutter. All original topics remain
+available in the filter and inside each article.
+
 ## Deploying to a homelab
 
 The build output is a fully static `dist/` folder — serve it with any web server.

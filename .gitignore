@@ -13,3 +13,7 @@ node_modules/
 
 # astro
 .astro/
+
+# browser test output
+test-results/
+playwright-report/

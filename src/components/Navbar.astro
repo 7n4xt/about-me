@@ -15,11 +15,23 @@ const links = [
 
 <header class="nav" id="site-nav">
   <div class="container nav__inner">
-    <a href="/#home" class="nav__brand" data-en-aria-label="Home" data-fr-aria-label="Accueil">
+    <a href="/#home" class="nav__brand" aria-label="Home" data-en-aria-label="Home" data-fr-aria-label="Accueil">
       <span class="nav__brand-prompt">$</span>
       <span class="nav__brand-name">7n4xt</span>
       <span class="nav__brand-cursor" aria-hidden="true">_</span>
     </a>
+
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-label={t('nav.toggleMenu')}
+      data-en-aria-label={t('nav.toggleMenu')}
+      data-fr-aria-label={tr.t('nav.toggleMenu')}
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+    >
+      <span></span><span></span><span></span>
+    </button>
 
     <nav
       class="nav__links"
@@ -33,17 +45,6 @@ const links = [
       ))}
       <LangSwitch />
     </nav>
-
-    <button
-      class="nav__toggle"
-      aria-label={t('nav.toggleMenu')}
-      data-en-aria-label={t('nav.toggleMenu')}
-      data-fr-aria-label={tr.t('nav.toggleMenu')}
-      aria-expanded="false"
-      aria-controls="primary-navigation"
-    >
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </header>
 
@@ -100,6 +101,7 @@ const links = [
       closeMenu();
     })
   );
+  nav.classList.add('is-enhanced');
 </script>
 
 <style>
@@ -203,11 +205,6 @@ const links = [
     width: 100%;
   }
 
-  .nav__cta {
-    padding: 0.5rem 1.1rem;
-    font-size: 0.88rem;
-  }
-
   .nav__toggle {
     display: none;
     flex-direction: column;
@@ -241,11 +238,28 @@ const links = [
   }
 
   @media (max-width: 860px) {
-    .nav__toggle {
+    .nav.is-enhanced .nav__toggle {
       display: flex;
     }
 
-    .nav__links {
+    .nav:not(.is-enhanced) {
+      position: relative;
+      height: auto;
+      padding-block: 0.75rem;
+      background: var(--bg-base);
+    }
+
+    .nav:not(.is-enhanced) .nav__inner,
+    .nav:not(.is-enhanced) .nav__links {
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+    }
+
+    .nav:not(.is-enhanced) .nav__links {
+      width: 100%;
+    }
+
+    .nav.is-enhanced .nav__links {
       position: fixed;
       top: var(--nav-height);
       left: 0;
@@ -271,7 +285,7 @@ const links = [
       visibility: visible;
     }
 
-    .nav__link {
+    .nav.is-enhanced .nav__link {
       display: block;
       width: 100%;
       padding-block: 0.8rem;
@@ -281,12 +295,6 @@ const links = [
 
     .nav__link::after {
       display: none;
-    }
-
-    .nav__cta {
-      margin-top: 1rem;
-      align-self: stretch;
-      justify-content: center;
     }
   }
 </style>

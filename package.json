@@ -7,10 +7,14 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "test:ui": "playwright test",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^4.16.19"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1"
   }
 }

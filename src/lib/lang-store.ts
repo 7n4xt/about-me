@@ -46,7 +46,7 @@ function applyLang(lang: Lang): void {
   for (const attr of ATTRS) {
     const enKey = `en${camel(attr)}` as const;
     const frKey = `fr${camel(attr)}` as const;
-    for (const el of document.querySelectorAll<HTMLElement>(`[data-${enKey}]`)) {
+    for (const el of document.querySelectorAll<HTMLElement>(`[data-en-${attr}]`)) {
       const value = el.dataset[(lang === 'fr' ? frKey : enKey) as keyof DOMStringMap] as string | undefined;
       if (value !== undefined) el.setAttribute(attr, value);
     }
@@ -113,6 +113,7 @@ export function initLang(): void {
       history.replaceState(null, '', url);
     });
   }
+  document.getElementById('lang-switch')?.removeAttribute('hidden');
 }
 
 /* Keep the old name working for the islands that already import it. */
