@@ -1,10 +1,45 @@
 <div class="site-lines" aria-hidden="true">
   {Astro.url.pathname === '/' && (
-    <svg class="site-lines__packet" viewBox="0 0 1440 1800" preserveAspectRatio="none" fill="none" focusable="false">
+    <svg class="site-lines__packet" id="hero-packet" viewBox="0 0 1440 1800" preserveAspectRatio="none" fill="none" focusable="false">
       <use href="/photos/site-lines.svg#packet-route" />
     </svg>
   )}
 </div>
+
+<script>
+  import { currentLang } from '../lib/lang-store';
+
+  const packet = document.querySelector<SVGSVGElement>('.site-lines__packet');
+  const toggle = document.querySelector<HTMLButtonElement>('#packet-toggle');
+  if (packet && toggle && 'IntersectionObserver' in window) {
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let inView = false;
+    let paused = false;
+
+    const updatePacket = () => {
+      packet.classList.toggle('is-running', inView && !document.hidden && !motion.matches && !paused);
+      toggle.hidden = motion.matches;
+      const en = paused ? 'Resume packet' : 'Pause packet';
+      const fr = paused ? 'Relancer le paquet' : 'Mettre le paquet en pause';
+      toggle.dataset.en = en;
+      toggle.dataset.fr = fr;
+      toggle.textContent = currentLang() === 'fr' ? fr : en;
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      updatePacket();
+    });
+    observer.observe(packet);
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      updatePacket();
+    });
+    document.addEventListener('visibilitychange', updatePacket);
+    motion.addEventListener('change', updatePacket);
+    updatePacket();
+  }
+</script>
 
 <style>
   .site-lines {
@@ -42,12 +77,16 @@
 
   @keyframes send-packet {
     0% { stroke-dashoffset: 0; opacity: 0; }
-    5%, 90% { opacity: 1; }
+    5%, 90% { opacity: 0.5; }
     100% { stroke-dashoffset: -1; opacity: 0; }
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .site-lines__packet use { animation: send-packet 2800ms linear 1 both; }
+    .site-lines__packet use {
+      animation: send-packet 2800ms linear infinite both;
+      animation-play-state: paused;
+    }
+    .site-lines__packet.is-running use { animation-play-state: running; }
   }
 
   @media (prefers-reduced-motion: reduce) {

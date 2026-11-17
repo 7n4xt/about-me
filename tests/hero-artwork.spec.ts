@@ -47,6 +47,8 @@ test('mascots and hero actions render without JavaScript', async ({ browser }) =
   await expect(page.locator('#hero-lab')).not.toHaveAttribute('open', '');
   await page.locator('#hero-lab summary').click();
   await expect(page.locator('.hero__terminal')).toBeVisible();
+  await expect(page.locator('.t-command')).toHaveText('fastfetch');
+  await expect(page.locator('.t-fastfetch')).toHaveCSS('opacity', '1');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await context.close();
 });
@@ -106,14 +108,25 @@ test('mobile terminal is keyboard-expandable and desktop stays open', async ({ p
   await expect(lab).not.toHaveAttribute('open', '');
 });
 
-test('network packet plays once and disappears', async ({ page }) => {
+test('network packet loops dimly, supports pause, and stops offscreen', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   const packet = page.locator('.site-lines__packet use');
   await expect(packet).toHaveAttribute('href', '/photos/site-lines.svg#packet-route');
-  await expect(packet).toHaveCSS('animation-iteration-count', '1');
-  await packet.evaluate((el) => el.getAnimations().forEach((animation) => animation.finish()));
-  await expect(packet).toHaveCSS('opacity', '0');
+  await expect(packet).toHaveCSS('animation-iteration-count', 'infinite');
+  await expect(packet).toHaveCSS('animation-play-state', 'running');
+  expect(await packet.evaluate((el) => {
+    const effect = el.getAnimations()[0].effect as KeyframeEffect;
+    return Math.max(...effect.getKeyframes().map((frame) => Number(frame.opacity ?? 0)));
+  })).toBe(0.5);
+  await page.getByRole('button', { name: 'Pause packet', exact: true }).click();
+  await expect(packet).toHaveCSS('animation-play-state', 'paused');
+  await page.getByRole('button', { name: 'Resume packet', exact: true }).click();
+  await expect(packet).toHaveCSS('animation-play-state', 'running');
+  await page.locator('#about').scrollIntoViewIfNeeded();
+  await expect(packet).toHaveCSS('animation-play-state', 'paused');
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(packet).toHaveCSS('animation-play-state', 'running');
   await page.goto('/blog');
   await expect(page.locator('.site-lines__packet')).toHaveCount(0);
 });
@@ -123,4 +136,75 @@ test('reduced motion suppresses the network packet', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.site-lines__packet')).toBeHidden();
   await expect(page.locator('.site-lines__packet use')).toHaveCSS('animation-name', 'none');
+  await expect(page.locator('#packet-toggle')).toBeHidden();
+  await expect(page.locator('.hero__terminal')).not.toHaveClass(/is-booting/);
+  await expect(page.locator('.t-fastfetch')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.t-command')).toHaveCSS('clip-path', 'none');
+});
+
+test('packet pauses for a simulated hidden tab', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  const packet = page.locator('.site-lines__packet use');
+  await expect(packet).toHaveCSS('animation-play-state', 'running');
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await expect(packet).toHaveCSS('animation-play-state', 'paused');
+  await page.evaluate(() => {
+    Reflect.deleteProperty(document, 'hidden');
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await expect(packet).toHaveCSS('animation-play-state', 'running');
+});
+
+test('terminal appears, types fastfetch, then reveals output', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  const terminal = page.locator('.hero__terminal');
+  await expect(terminal).not.toHaveClass(/is-booting/);
+  await page.locator('#hero-lab summary').click();
+  await terminal.scrollIntoViewIfNeeded();
+  await expect(terminal).toHaveClass(/is-booting/);
+  const seek = async (time: number) => terminal.evaluate((el, time) => {
+    for (const animation of el.getAnimations({ subtree: true })) {
+      if (animation.effect!.getComputedTiming().iterations === Infinity) continue;
+      animation.pause();
+      animation.currentTime = time;
+    }
+  }, time);
+  await seek(0);
+  await expect(terminal).toHaveCSS('opacity', '0');
+  await expect(page.locator('.t-command')).toHaveCSS('clip-path', /100%/);
+  await expect(page.locator('.t-fastfetch')).toHaveCSS('opacity', '0');
+  const initialClip = await page.locator('.t-command').evaluate((el) => getComputedStyle(el).clipPath);
+  await seek(800);
+  await expect(terminal).toHaveCSS('opacity', '1');
+  expect(await page.locator('.t-command').evaluate((el) => getComputedStyle(el).clipPath)).not.toBe(initialClip);
+  await expect(page.locator('.t-fastfetch')).toHaveCSS('opacity', '0');
+  await terminal.evaluate((el) => {
+    for (const animation of el.getAnimations({ subtree: true })) {
+      if (animation.effect!.getComputedTiming().iterations !== Infinity) animation.finish();
+    }
+  });
+  await expect(terminal).not.toHaveClass(/is-booting/);
+  await expect(page.locator('.t-command')).toHaveText('fastfetch');
+  await expect(page.locator('.t-command')).toHaveCSS('clip-path', 'none');
+  await expect(page.locator('.t-fastfetch')).toHaveCSS('opacity', '1');
+});
+
+test('closing terminal mid-intro never leaves its content hidden', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  const summary = page.locator('#hero-lab summary');
+  await summary.click();
+  await page.locator('.hero__terminal').scrollIntoViewIfNeeded();
+  await expect(page.locator('.hero__terminal')).toHaveClass(/is-booting/);
+  await summary.click();
+  await expect(page.locator('.hero__terminal')).not.toHaveClass(/is-booting/);
+  await summary.click();
+  await expect(page.locator('.t-fastfetch')).toHaveCSS('opacity', '1');
 });

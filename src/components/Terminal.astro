@@ -12,7 +12,7 @@ const tr = useTranslations('fr');
     <span class="hero__terminal-title mono">7n4xt@homelab: ~</span>
   </div>
   <div class="hero__terminal-body mono">
-    <div class="t-line t-prompt-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> fastfetch</div>
+    <div class="t-line t-prompt-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> <span class="t-command">fastfetch</span></div>
     <div class="t-fastfetch">
       <pre class="t-ascii" aria-hidden="true"><span class="c1">             .',;::::;,'.
          .';:cccccccccccc:;,.
@@ -43,9 +43,40 @@ ccccccccccccccccccccccccccccc:'.
         <div class="t-line t-ok"> Status → [█████████░] <span data-en={t('hero.status')} data-fr={tr.t('hero.status')}>{t('hero.status')}</span></div>
       </div>
     </div>
-    <div class="t-line"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> <span class="t-cursor" aria-hidden="true">▊</span></div>
+    <div class="t-line t-return"><span class="t-prompt">abdulmalek@homelab:</span><span class="t-dir">~$</span> <span class="t-cursor" aria-hidden="true">▊</span></div>
   </div>
 </div>
+
+<script>
+  const terminal = document.querySelector<HTMLElement>('.hero__terminal')!;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Only opt into hidden animation states after a working visibility observer.
+  if ('IntersectionObserver' in window && !motion.matches) {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      const lab = terminal.closest('details');
+      if (lab && !lab.open) return;
+      if (!motion.matches) terminal.classList.add('is-booting');
+      observer.disconnect();
+    }, { threshold: 0.1 });
+    observer.observe(terminal);
+    terminal.addEventListener('animationend', (event) => {
+      if (event.target === terminal.querySelector('.t-return')) {
+        terminal.classList.remove('is-booting');
+      }
+    });
+    terminal.closest('details')?.addEventListener('toggle', (event) => {
+      if (!(event.currentTarget as HTMLDetailsElement).open) terminal.classList.remove('is-booting');
+    });
+    motion.addEventListener('change', () => {
+      if (motion.matches) {
+        terminal.classList.remove('is-booting');
+        observer.disconnect();
+      }
+    });
+  }
+</script>
 
 <style>
   .hero__terminal { min-width: 0; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.45); }
@@ -56,6 +87,23 @@ ccccccccccccccccccccccccccccc:'.
   .hero__terminal-body { padding: 1.3rem 1.4rem; font-size: 0.88rem; line-height: 2; }
   .t-line { overflow-wrap: anywhere; }
   .t-prompt-line { margin-bottom: 0.5rem; }
+  .t-command { display: inline-block; white-space: nowrap; vertical-align: bottom; }
+  .is-booting { animation: terminal-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .is-booting .t-command { animation: terminal-type 810ms steps(9, end) 360ms both; }
+  .is-booting .t-fastfetch { animation: terminal-output 250ms ease-out 1300ms both; }
+  .is-booting .t-return { animation: terminal-output 180ms ease-out 1550ms both; }
+  @keyframes terminal-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes terminal-type {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes terminal-output {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
   .t-fastfetch { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.4rem; }
   .t-ascii { margin: 0; padding: 0; line-height: 1.35; font-size: 0.62rem; color: var(--nord8); flex-shrink: 0; user-select: none; }
   .t-ascii .c2 { color: var(--nord6); }
@@ -65,6 +113,9 @@ ccccccccccccccccccccccccccccc:'.
   .t-dim { color: var(--text-muted); } .t-ok { color: var(--success); }
   .t-cursor { animation: blink 1s steps(2,start) infinite; }
   @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .t-cursor { animation: none; }
+  }
   @media (max-width: 900px) { .hero__terminal { max-width: 560px; width: 100%; } }
   @media (max-width: 400px) { .hero__terminal-body { padding: 1rem; } .t-ascii { font-size: 0.5rem; } }
 </style>
