@@ -86,7 +86,6 @@ const featured = [
         <a href={p.repo} target="_blank" rel="noopener" class="project card" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
           <div class="project__media">
             <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
-            <div class="project__overlay mono" data-en={t('projects.viewSource')} data-fr={tr.t('projects.viewSource')}>{t('projects.viewSource')}</div>
           </div>
           <div class="project__body">
             <h3 class="project__title">{p.title}</h3>
@@ -96,6 +95,7 @@ const featured = [
                 <span class="project__tag mono">{s}</span>
               ))}
             </div>
+            <span class="project__source" data-en="View source code" data-fr="Voir le code source">View source code</span>
           </div>
         </a>
       ))}
@@ -123,7 +123,7 @@ const featured = [
   }
 
   .project:hover {
-    transform: translateY(-6px);
+    transform: translateY(-3px);
   }
 
   .project:hover .project__overlay {
@@ -165,7 +165,7 @@ const featured = [
   }
 
   .project__body {
-    padding: 1.4rem;
+    padding: 1.6rem;
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
@@ -175,6 +175,8 @@ const featured = [
   .project__title {
     font-size: 1.15rem;
   }
+
+  .project__source { color: var(--accent); font-size: 0.9rem; font-weight: 600; margin-top: 0.75rem; }
 
   .project__desc {
     color: var(--text-secondary);

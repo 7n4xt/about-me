@@ -5,12 +5,31 @@ import About from '../components/About.astro';
 import Skills from '../components/Skills.astro';
 import FeaturedProjects from '../components/FeaturedProjects.astro';
 import GitHubRepos from '../components/GitHubRepos.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 3);
 ---
 
 <Layout>
   <Hero />
+  <FeaturedProjects />
   <About />
   <Skills />
-  <FeaturedProjects />
+  {posts.length > 0 && <section class="section" aria-labelledby="latest-title">
+    <div class="container">
+      <div class="latest__head">
+        <h2 id="latest-title" class="section__title" data-en="Notes from the lab" data-fr="Notes du lab">Notes from the lab</h2>
+        <a class="btn btn--ghost" href="/blog" data-en="All articles" data-fr="Tous les articles">All articles</a>
+      </div>
+      <div class="latest__grid">{posts.map(post => <BlogCard post={post} />)}</div>
+    </div>
+  </section>}
   <GitHubRepos />
 </Layout>
+
+<style>
+  .latest__head { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .latest__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  @media (max-width: 800px) { .latest__grid { grid-template-columns: 1fr; } }
+</style>

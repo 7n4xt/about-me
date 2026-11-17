@@ -1,5 +1,4 @@
 ---
-import { SITE } from '../lib/site';
 import LangSwitch from './LangSwitch.astro';
 import { useTranslations } from '../lib/translate';
 
@@ -7,11 +6,8 @@ const { t } = useTranslations('en');
 const tr = useTranslations('fr');
 
 const links = [
-  { href: '/#home', key: 'nav.home' },
-  { href: '/#about', key: 'nav.about' },
-  { href: '/#skills', key: 'nav.skills' },
   { href: '/#projects', key: 'nav.projects' },
-  { href: '/#repos', key: 'nav.repos' },
+  { href: '/#about', key: 'nav.about' },
   { href: '/blog', key: 'nav.blog' },
   { href: '/#contact', key: 'nav.contact' },
 ] as const;
@@ -27,6 +23,8 @@ const links = [
 
     <nav
       class="nav__links"
+      id="primary-navigation"
+      aria-label={t('nav.primary')}
       data-en-aria-label={t('nav.primary')}
       data-fr-aria-label={tr.t('nav.primary')}
     >
@@ -34,19 +32,15 @@ const links = [
         <a href={l.href} class="nav__link" data-en={t(l.key)} data-fr={tr.t(l.key)}>{t(l.key)}</a>
       ))}
       <LangSwitch />
-      <a
-        class="btn btn--primary nav__cta"
-        href={`mailto:${SITE.email}`}
-        data-en={t('nav.hire')}
-        data-fr={tr.t('nav.hire')}>{t('nav.hire')}</a>
     </nav>
 
     <button
       class="nav__toggle"
+      aria-label={t('nav.toggleMenu')}
       data-en-aria-label={t('nav.toggleMenu')}
       data-fr-aria-label={tr.t('nav.toggleMenu')}
       aria-expanded="false"
-      aria-controls="site-nav"
+      aria-controls="primary-navigation"
     >
       <span></span><span></span><span></span>
     </button>
@@ -54,13 +48,47 @@ const links = [
 </header>
 
 <script>
-  const nav = document.getElementById('site-nav');
-  const toggle = nav.querySelector('.nav__toggle');
-  const links = nav.querySelector('.nav__links');
+  const nav = document.getElementById('site-nav')!;
+  const toggle = nav.querySelector<HTMLButtonElement>('.nav__toggle')!;
+  const links = nav.querySelector<HTMLElement>('.nav__links')!;
+  function closeMenu(returnFocus = false) {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    if (returnFocus) toggle.focus();
+  }
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && nav.classList.contains('is-open')) closeMenu(true);
+  });
+  document.addEventListener('click', (event) => {
+    if (event.target instanceof Node && !nav.contains(event.target)) closeMenu();
+  });
+  nav.addEventListener('focusout', (event) => {
+    if (event.relatedTarget instanceof Node && !nav.contains(event.relatedTarget)) closeMenu();
+  });
+  const desktop = window.matchMedia('(min-width: 861px)');
+  desktop.addEventListener('change', () => closeMenu());
+  const sectionLinks = Array.from(links.querySelectorAll<HTMLAnchorElement>('.nav__link'));
+  function updateActive() {
+    let active = location.pathname.startsWith('/blog') ? '/blog' : '';
+    if (location.pathname === '/') {
+      for (const id of ['projects', 'about', 'contact']) {
+        const section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= 160) active = `/#${id}`;
+      }
+    }
+    sectionLinks.forEach(link => {
+      if (link.getAttribute('href') === active) link.setAttribute('aria-current', active === '/blog' ? 'page' : 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  updateActive();
 
-  window.addEventListener('scroll', () => {
+  function updateScrollState() {
     nav.classList.toggle('is-scrolled', window.scrollY > 12);
-  }, { passive: true });
+    updateActive();
+  }
+  updateScrollState();
+  window.addEventListener('scroll', updateScrollState, { passive: true });
 
   toggle.addEventListener('click', () => {
     const open = nav.classList.toggle('is-open');
@@ -69,8 +97,7 @@ const links = [
 
   links.querySelectorAll('a').forEach((a) =>
     a.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
+      closeMenu();
     })
   );
 </script>
@@ -85,14 +112,30 @@ const links = [
     height: var(--nav-height);
     display: flex;
     align-items: center;
-    transition: background var(--transition), border-color var(--transition), backdrop-filter var(--transition);
-    border-bottom: 1px solid transparent;
+    isolation: isolate;
   }
 
-  .nav.is-scrolled {
-    background: rgba(23, 26, 34, 0.82);
-    backdrop-filter: blur(14px);
-    border-bottom-color: var(--border-subtle);
+  .nav::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 -48px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(23, 26, 34, 0.96) 0%, rgba(23, 26, 34, 0.9) 45%, rgba(23, 26, 34, 0) 100%);
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .nav.is-scrolled::before, .nav.is-open::before { opacity: 1; }
+
+  @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .nav::before {
+      background: linear-gradient(to bottom, rgba(23, 26, 34, 0.76), rgba(23, 26, 34, 0.3));
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
+    }
   }
 
   .nav__inner {
@@ -129,7 +172,7 @@ const links = [
   .nav__links {
     display: flex;
     align-items: center;
-    gap: 1.75rem;
+    gap: 1.25rem;
   }
 
   .nav__link {
@@ -137,7 +180,8 @@ const links = [
     font-weight: 500;
     color: var(--text-secondary);
     position: relative;
-    padding-block: 0.4rem;
+    padding-block: 0.65rem;
+    min-height: 44px;
   }
 
   .nav__link::after {
@@ -151,11 +195,11 @@ const links = [
     transition: width var(--transition);
   }
 
-  .nav__link:hover {
+  .nav__link[aria-current], .nav__link:hover {
     color: var(--text-primary);
   }
 
-  .nav__link:hover::after {
+  .nav__link[aria-current]::after, .nav__link:hover::after {
     width: 100%;
   }
 
@@ -172,6 +216,10 @@ const links = [
     border: none;
     cursor: pointer;
     padding: 0.5rem;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    align-items: center;
   }
 
   .nav__toggle span {
@@ -209,6 +257,8 @@ const links = [
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border-subtle);
       padding: 0.75rem 1.25rem 1.5rem;
+      max-height: calc(100dvh - var(--nav-height));
+      overflow-y: auto;
       transform: translateY(-8px);
       opacity: 0;
       visibility: hidden;
