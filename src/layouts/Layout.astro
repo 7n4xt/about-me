@@ -1,6 +1,7 @@
 ---
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import SiteLines from '../components/SiteLines.astro';
 import { useTranslations } from '../lib/translate';
 import '../styles/global.css';
 
@@ -64,6 +65,7 @@ const switchableTitle = !title;
   <body>
     <a class="skip-link" href="#main-content" data-en="Skip to content" data-fr="Aller au contenu">Skip to content</a>
     <div id="__site">
+      <SiteLines />
       <Navbar />
       <main id="main-content" tabindex="-1">
         <slot />

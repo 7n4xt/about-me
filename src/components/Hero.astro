@@ -2,34 +2,92 @@
 import { SITE } from '../lib/site';
 import { useTranslations } from '../lib/translate';
 import Terminal from './Terminal.astro';
+import HeroArtwork from './HeroArtwork.astro';
 const { t } = useTranslations('en');
 const tr = useTranslations('fr');
 ---
 
 <section class="hero" id="home">
-  <div class="hero__grid container">
-    <div class="hero__content">
-      <p class="hero__location"><span aria-hidden="true"></span>{SITE.location}</p>
-      <h1><span class="hero__greeting" data-en={t('hero.greeting')} data-fr={tr.t('hero.greeting')}>{t('hero.greeting')}</span>Abdulmalek<br />Esughi.</h1>
-      <p class="hero__role" data-en="Networking & infrastructure student" data-fr="Étudiant en réseaux et infrastructure">Networking & infrastructure student</p>
-      <p class="hero__sub" data-en="I build homelabs, harden systems, and learn by taking things apart. Cybersecurity background. Working toward the CCNA." data-fr="Je monte des homelabs, je sécurise des systèmes et j’apprends en démontant les choses. Un parcours en cybersécurité. Le CCNA en préparation.">I build homelabs, harden systems, and learn by taking things apart. Cybersecurity background. Working toward the CCNA.</p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="/#projects"><span data-en={t('hero.viewWork')} data-fr={tr.t('hero.viewWork')}>{t('hero.viewWork')}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14m-6-6 6 6 6-6" /></svg></a>
-        <a class="btn btn--ghost" href="/files/ESUGHI-Abdulmalek-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5" /></svg><span data-en={t('hero.downloadCV')} data-fr={tr.t('hero.downloadCV')}>{t('hero.downloadCV')}</span></a>
+  <div class="hero__stage">
+    <div class="hero__grid container">
+      <div class="hero__content">
+        <p class="hero__location"><span aria-hidden="true"></span>{SITE.location}</p>
+        <h1><span class="hero__greeting" data-en={t('hero.greeting')} data-fr={tr.t('hero.greeting')}>{t('hero.greeting')}</span>Abdulmalek<br />Esughi.</h1>
+        <p class="hero__role" data-en="Networking & infrastructure student" data-fr="Étudiant en réseaux et infrastructure">Networking & infrastructure student</p>
+        <p class="hero__sub" data-en="I build homelabs, harden systems, and learn by taking things apart. Cybersecurity background. Working toward the CCNA." data-fr="Je monte des homelabs, je sécurise des systèmes et j’apprends en démontant les choses. Un parcours en cybersécurité. Le CCNA en préparation.">I build homelabs, harden systems, and learn by taking things apart. Cybersecurity background. Working toward the CCNA.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="/#projects"><span data-en={t('hero.viewWork')} data-fr={tr.t('hero.viewWork')}>{t('hero.viewWork')}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14m-6-6 6 6 6-6" /></svg></a>
+          <a class="btn btn--ghost" href="/files/ESUGHI-Abdulmalek-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5" /></svg><span data-en={t('hero.downloadCV')} data-fr={tr.t('hero.downloadCV')}>{t('hero.downloadCV')}</span></a>
+        </div>
+        <div class="hero__links"><a href={SITE.social.github} target="_blank" rel="noopener">GitHub</a><a href={SITE.social.linkedin} target="_blank" rel="noopener">LinkedIn</a><a href="/blog" data-en={t('hero.readBlog')} data-fr={tr.t('hero.readBlog')}>{t('hero.readBlog')}</a></div>
       </div>
-      <div class="hero__links"><a href={SITE.social.github} target="_blank" rel="noopener">GitHub</a><a href={SITE.social.linkedin} target="_blank" rel="noopener">LinkedIn</a><a href="/blog" data-en={t('hero.readBlog')} data-fr={tr.t('hero.readBlog')}>{t('hero.readBlog')}</a></div>
+      <details class="hero__lab" id="hero-lab">
+        <summary>
+          <span data-en="Inside my homelab" data-fr="Dans mon homelab">Inside my homelab</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <Terminal />
+      </details>
     </div>
-    <Terminal />
+    <HeroArtwork />
   </div>
+  <a class="hero__credits" href="/mascots/CREDITS.md" data-en="Mascot artwork credits" data-fr="Crédits des illustrations">Mascot artwork credits</a>
 </section>
 
+<script is:inline>
+  (function () {
+    var lab = document.getElementById('hero-lab');
+    var desktop = window.matchMedia('(min-width: 901px)');
+    function syncTerminal() { lab.open = desktop.matches; }
+    syncTerminal();
+    desktop.addEventListener('change', syncTerminal);
+  })();
+</script>
+
 <style>
-  .hero { padding-block: calc(var(--nav-height) + 5rem) 5rem; }
-  .hero__grid { display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center; gap: 4rem; }
+  .hero { padding-block: calc(var(--nav-height) + 4rem) 2rem; }
+  .hero__stage {
+    position: relative;
+    width: min(1320px, calc(100% - 4rem));
+    margin-inline: auto;
+    padding-block: 4rem;
+  }
+  .hero__grid { position: relative; display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center; gap: 4rem; }
+  .hero__lab { min-width: 0; width: 100%; }
+  .hero__lab summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 48px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+  }
+  .hero__lab summary::-webkit-details-marker { display: none; }
+  .hero__lab[open] summary { margin-bottom: 1rem; }
+  .hero__lab[open] summary svg { rotate: 180deg; }
+  @media (min-width: 901px) {
+    .hero__lab[open] summary { display: none; }
+  }
+  .hero__credits {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    width: fit-content;
+    margin: 1.25rem auto 0;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
   .hero__content { min-width: 0; }
   .hero__location { display: flex; align-items: center; gap: 0.6rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.75rem; }
   .hero__location > span { width: 7px; height: 7px; background: var(--success); border-radius: 50%; flex-shrink: 0; }
-  h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1.04; letter-spacing: -0.055em; }
+  h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1.04; letter-spacing: -0.04em; }
   .hero__greeting { display: block; color: var(--text-secondary); font-size: 1.1rem; letter-spacing: 0; font-weight: 500; margin-bottom: 0.85rem; }
   .hero__role { margin-top: 1.5rem; font-size: clamp(1.15rem, 2vw, 1.4rem); color: var(--accent); font-weight: 500; }
   .hero__sub { margin-top: 1rem; max-width: 48ch; color: var(--text-secondary); }
@@ -37,6 +95,13 @@ const tr = useTranslations('fr');
   .hero__links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.25rem; }
   .hero__links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-secondary); font-size: 0.9rem; }
   .hero__links a:hover { color: var(--accent); }
-  @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; gap: 3rem; } .hero { padding-block: calc(var(--nav-height) + 3rem) 3rem; } }
-  @media (max-width: 400px) { .hero__actions .btn { width: 100%; } }
+  @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; gap: 3rem; } .hero { padding-block: calc(var(--nav-height) + 3rem) 3rem; } .hero__lab { max-width: 560px; } }
+  @media (max-width: 640px) {
+    .hero__stage { width: calc(100% - 1.5rem); padding-block: 3.5rem; }
+    .hero__credits { margin-top: 3.5rem; }
+  }
+  @media (max-width: 400px) {
+    h1 { font-size: clamp(2.5rem, 11vw, 3rem); }
+    .hero__actions .btn { width: 100%; }
+  }
 </style>

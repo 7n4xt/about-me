@@ -1,0 +1,121 @@
+---
+const mascots = [
+  { name: 'tux', src: '/mascots/tux.png', width: 265, height: 314, href: '/blog/building-a-homelab', external: false, en: 'Linux · homelab notes', fr: 'Linux · notes du homelab' },
+  { name: 'docker', src: '/mascots/docker.svg', width: 140, height: 130, href: 'https://github.com/7n4xt/Nostroguard', external: true, en: 'Docker · Nostroguard source', fr: 'Docker · code de Nostroguard' },
+  { name: 'gopher', src: '/mascots/gopher.svg', width: 402, height: 559, href: 'https://github.com/7n4xt/Forum-go', external: true, en: 'Go · Forum-Go source', fr: 'Go · code de Forum-Go' },
+];
+---
+
+<div class="hero-art">
+  {mascots.map((mascot) => (
+    <a
+      class={`hero-art__link hero-art__${mascot.name}`}
+      href={mascot.href}
+      target={mascot.external ? '_blank' : undefined}
+      rel={mascot.external ? 'noopener' : undefined}
+      aria-label={mascot.en}
+      data-en-aria-label={mascot.en}
+      data-fr-aria-label={mascot.fr}
+    >
+      <img class="hero-art__mascot" src={mascot.src} width={mascot.width} height={mascot.height} alt="" draggable="false" />
+      <span class="hero-art__label" aria-hidden="true" data-en={mascot.en} data-fr={mascot.fr}>{mascot.en}</span>
+    </a>
+  ))}
+</div>
+
+<script>
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('.hero-art__link')) {
+    link.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') link.classList.add('is-label-dismissed');
+    });
+    for (const event of ['focus', 'pointerenter']) {
+      link.addEventListener(event, () => link.classList.remove('is-label-dismissed'));
+    }
+  }
+</script>
+
+<style>
+  .hero-art {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
+  }
+
+  .hero-art__link {
+    position: absolute;
+    display: block;
+    pointer-events: auto;
+  }
+
+  .hero-art__mascot {
+    display: block;
+    width: 100%;
+    height: auto;
+    rotate: var(--mascot-tilt);
+    filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.3));
+  }
+
+  .hero-art__label {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    z-index: 1;
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
+  }
+
+  .hero-art__link:is(:hover, :focus-visible):not(.is-label-dismissed) .hero-art__label {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .hero-art__docker .hero-art__label,
+  .hero-art__gopher .hero-art__label {
+    left: auto;
+    right: 0;
+  }
+
+  .hero-art__gopher .hero-art__label {
+    top: auto;
+    bottom: calc(100% + 0.5rem);
+  }
+
+  .hero-art__tux {
+    width: 94px;
+    top: -40px;
+    left: 28px;
+    --mascot-tilt: -12deg;
+  }
+
+  .hero-art__docker {
+    width: 112px;
+    top: -30px;
+    right: 38px;
+    --mascot-tilt: 9deg;
+  }
+
+  .hero-art__gopher {
+    width: 80px;
+    bottom: -32px;
+    right: 28px;
+    --mascot-tilt: 12deg;
+  }
+
+  @media (max-width: 640px) {
+    .hero-art__tux { width: 65px; top: -25px; left: 14px; }
+    .hero-art__docker { width: 80px; top: -21px; right: 14px; }
+    .hero-art__gopher { width: 61px; bottom: -44px; right: 18px; }
+  }
+</style>

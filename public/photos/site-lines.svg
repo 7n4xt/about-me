@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1800" viewBox="0 0 1440 1800" preserveAspectRatio="none" fill="none">
+  <g stroke="#88c0d0" stroke-width="1.5" stroke-linecap="round">
+    <path id="packet-route" pathLength="1" vector-effect="non-scaling-stroke" d="M80 0C80 220 1250 240 1250 520S180 820 180 1080S1180 1380 1180 1580S80 1700 80 1800"/>
+    <path vector-effect="non-scaling-stroke" d="M132 0C132 200 1302 260 1302 520S232 840 232 1080S1232 1400 1232 1580S132 1720 132 1800"/>
+  </g>
+</svg>
