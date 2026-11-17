@@ -80,7 +80,7 @@ export const en = {
   'about.tl2Role': 'Computer Science — Cybersecurity specialisation',
   'about.tl2Org': 'Cybersecurity foundations',
   'about.tl2Desc':
-    'Focused on offensive and defensive security: Wazuh SIEM, Wireshark analysis, system hardening, and HackTheBox CTF grinding. Those two years gave me the security mindset I now apply to infrastructure.',
+    'Focused on offensive and defensive security: Wireshark analysis, system hardening, and HackTheBox CTF grinding. Those two years gave me the security mindset I now apply to infrastructure.',
   'about.tl3Period': '2022 — 2023',
   'about.tl3Role': 'From Libya to Marseille : language & studies',
   'about.tl3Org': 'Integration in France',
@@ -107,7 +107,6 @@ export const en = {
   'skills.itemServers': 'Server administration',
   'skills.itemTroubleshooting': 'Network troubleshooting',
   'skills.itemSelfHosting': 'Self-hosting',
-  'skills.itemWazuh': 'Wazuh SIEM',
   'skills.itemWireshark': 'Wireshark / packet analysis',
   'skills.itemHardening': 'System hardening',
   'skills.itemHoneypots': 'Honeypots',
@@ -263,7 +262,7 @@ export const fr: Dict = {
   'about.tl2Role': 'Informatique — spécialisation cybersécurité',
   'about.tl2Org': 'Fondations en cybersécurité',
   'about.tl2Desc':
-    'Focus sur la sécurité offensive et défensive : SIEM Wazuh, analyse Wireshark, durcissement système et CTF sur HackTheBox. Ces deux années m’ont donné le réflexe sécurité que j’applique aujourd’hui à l’infrastructure.',
+    'Focus sur la sécurité offensive et défensive : analyse Wireshark, durcissement système et CTF sur HackTheBox. Ces deux années m’ont donné le réflexe sécurité que j’applique aujourd’hui à l’infrastructure.',
   'about.tl3Period': '2022 — 2023',
   'about.tl3Role': 'De la Libye à Marseille : langue et études',
   'about.tl3Org': 'Intégration en France',
@@ -290,7 +289,6 @@ export const fr: Dict = {
   'skills.itemServers': 'Administration serveur',
   'skills.itemTroubleshooting': 'Diagnostic réseau',
   'skills.itemSelfHosting': 'Auto-hébergement',
-  'skills.itemWazuh': 'SIEM Wazuh',
   'skills.itemWireshark': 'Wireshark / analyse de paquets',
   'skills.itemHardening': 'Durcissement système',
   'skills.itemHoneypots': 'Honeypots',

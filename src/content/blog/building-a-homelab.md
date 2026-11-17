@@ -41,7 +41,6 @@ After several iterations, my current stack is deliberately small:
 - **Grafana + Prometheus** — metrics from the whole host
 - **Navidrome** — self-hosted music
 - **Samba** — file shares for the house
-- **Wazuh** — the security layer I'm actively learning
 
 ## The real lesson
 

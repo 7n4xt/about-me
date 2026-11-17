@@ -374,7 +374,7 @@ Ce stage a eu un impact décisif sur mon projet professionnel, à deux niveaux.
 
 **Sur le fond**, il a considérablement élargi mon champ de compétences. Ma formation et
 mes projets personnels m'orientaient vers les **réseaux, l'infrastructure et la
-sécurité** — mon homelab Proxmox, mes expériences avec Wazuh, mes CTF. Ce stage m'a
+sécurité** — mon homelab Proxmox, mes CTF. Ce stage m'a
 emmené sur un terrain complémentaire : le **backend, les microservices, l'architecture
 événementielle, le Machine Learning et l'IA générative**. Je me découvre désormais une
 double trajectoire possible : celle de l'ingénieur infrastructure qui construit des
